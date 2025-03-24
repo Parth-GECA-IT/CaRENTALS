@@ -44,7 +44,7 @@ CaRENTALS/
 2. **Configure the Database:**
    - Open `src/main/resources/application.properties` and update:
      ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/car_rental_db
+     spring.datasource.url=jdbc:mysql://localhost:3306/carentals
      spring.datasource.username=root
      spring.datasource.password=yourpassword
      spring.jpa.hibernate.ddl-auto=update
