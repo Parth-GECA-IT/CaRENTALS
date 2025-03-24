@@ -1,24 +1,24 @@
-# Car Rental Project
+# 🚗 Car Rental Project 🏎️
 
 This repository contains a Car Rental Project with a Next.js frontend and a Spring Boot backend.
 
-## Prerequisites
+## 📝 Prerequisites
 Before running the project, ensure you have the following installed:
 
-- [Node.js](https://nodejs.org/) (version 18.17 or later)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-- [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) (version 17 or later)
-- [Apache Maven](https://maven.apache.org/) (for building the Spring Boot application)
-- [MySQL](https://dev.mysql.com/downloads/) (for database support)
+* [Node.js](https://nodejs.org/) (version 18.17 or later)
+* [npm](https://www.npmjs.com/) (comes with Node.js)
+* [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) (version 17 or later)
+* [Apache Maven](https://maven.apache.org/) (for building the Spring Boot application)
+* [MySQL](https://dev.mysql.com/downloads/) (for database support)
 
-## Project Structure
-```
+## 🗂️ Project Structure
+```markdown
 CaRENTALS/
 ├── client/   # Next.js frontend
 └── server/   # Spring Boot backend
 ```
 
-## Setting Up the Frontend (Next.js)
+## 🚀 Setting Up the Frontend (Next.js)
 
 1. **Navigate to the `client` directory:**
    ```bash
@@ -36,11 +36,11 @@ CaRENTALS/
    ```
    The frontend should now be running at `http://localhost:3000`.
 
-## Setting Up the Backend (Spring Boot)
+## 🚀 Setting Up the Backend (Spring Boot)
 
 1. **Open in Spring Tool Suite 4 (STS4) or any IDE:**
    - Import the project as a **Maven Project** in STS4 or IntelliJ.
-   
+
 2. **Configure the Database:**
    - Open `src/main/resources/application.properties` and update:
      ```properties
@@ -59,9 +59,9 @@ CaRENTALS/
    ```bash
    mvn spring-boot:run
    ```
-   The backend API should now be running at `http://localhost:8080`.
+   The backend API should now be running at [http://localhost:8080](http://localhost:8080).
 
-## Notes
+## 📝 Notes
 - Ensure the backend is running before starting the frontend for API calls to work.
 - Adjust configurations as needed to match your environment.
 - For any issues, refer to the official documentation:
