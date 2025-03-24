@@ -124,4 +124,4 @@ If you are a contributor, follow these steps to clone the repository and create 
 ## 👥 Contributors
 
 - **Parth Armarkar** - [LinkedIn](http://www.linkedin.com/in/parth-armarkar-052551289) | [GitHub](https://github.com/Parth-GECA-IT)
-- **Pranay Bannagre** - [LinkedIn](https://in.linkedin.com/in/pranay-bannagare-b69b76260) | [GitHub](https://github.com)
+- **Pranay Bannagare** - [LinkedIn](https://in.linkedin.com/in/pranay-bannagare-b69b76260) | [GitHub](https://github.com)
