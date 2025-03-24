@@ -95,3 +95,6 @@ END
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-03-24 23:05:39.071
 !MESSAGE Classpath changed for project: server
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-03-25 00:13:20.250
+!MESSAGE Classpath changed for project: server

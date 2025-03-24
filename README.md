@@ -7,7 +7,7 @@ Before running the project, ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (version 18.17 or later)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
-- [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or later)
+- [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) (version 17 or later)
 - [Apache Maven](https://maven.apache.org/) (for building the Spring Boot application)
 - [MySQL](https://dev.mysql.com/downloads/) (for database support)
 
@@ -68,3 +68,7 @@ CaRENTALS/
   - [Spring Boot Docs](https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html)
   - [Next.js Docs](https://nextjs.org/docs/getting-started)
 
+## 👥 Contributors
+
+- **Parth Armarkar** - [LinkedIn](http://www.linkedin.com/in/parth-armarkar-052551289) | [GitHub](https://github.com/Parth-GECA-IT)
+- **Pranay Bannagre** - [LinkedIn](https://in.linkedin.com/in/pranay-bannagare-b69b76260) | [GitHub](https://github.com)
