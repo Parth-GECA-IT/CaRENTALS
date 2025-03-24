@@ -83,7 +83,7 @@ If you are a contributor, follow these steps to clone the repository and create 
 
    The frontend should now be running at [http://localhost:3000](http://localhost:3000).
 
-## Setting Up the Backend (Spring Boot)
+## 🚀 Setting Up the Backend (Spring Boot)
 
 1. **Open in Spring Tool Suite 4 (STS4) or any IDE:**
 
