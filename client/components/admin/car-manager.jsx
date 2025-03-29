@@ -30,13 +30,14 @@ const carFormSchema = insertCarSchema.extend({
     .transform(str => str.split(',').map(s => s.trim()).filter(s => s !== ''))
 });
 
-type CarFormValues = z.infer<typeof carFormSchema>;
+// type CarFormValues = z.infer<typeof carFormSchema>;
 
-interface CarManagerProps {
-  cars: Car[];
-}
+// interface CarManagerProps {
+//   cars: Car[];
+// }
 
-export default function CarManager({ cars }: CarManagerProps) {
+// export default function CarManager({ cars }: CarManagerProps) {
+export default function CarManager({ cars }) {
   const { toast } = useToast();
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -68,7 +69,8 @@ export default function CarManager({ cars }: CarManagerProps) {
   });
 
   const createCarMutation = useMutation({
-    mutationFn: async (data: CarFormValues) => {
+    // mutationFn: async (data: CarFormValues) => {
+    mutationFn: async (data) => {
       const res = await apiRequest("POST", "/api/cars", data);
       return res.json();
     },
@@ -81,7 +83,8 @@ export default function CarManager({ cars }: CarManagerProps) {
       setOpenCreateDialog(false);
       form.reset();
     },
-    onError: (error: Error) => {
+    // onError: (error: Error) => {
+    onError: (error) => {
       toast({
         title: "Error",
         description: `Failed to create car: ${error.message}`,
@@ -91,7 +94,8 @@ export default function CarManager({ cars }: CarManagerProps) {
   });
 
   const updateCarMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: number; data: Partial<Car> }) => {
+    // mutationFn: async ({ id, data }: { id: number; data: Partial<Car> }) => {
+    mutationFn: async ({ id, data }) => {
       const res = await apiRequest("PUT", `/api/cars/${id}`, data);
       return res.json();
     },
@@ -103,7 +107,8 @@ export default function CarManager({ cars }: CarManagerProps) {
       });
       setOpenEditDialog(false);
     },
-    onError: (error: Error) => {
+    // onError: (error: Error) => {
+    onError: (error) => {
       toast({
         title: "Error",
         description: `Failed to update car: ${error.message}`,
@@ -113,7 +118,8 @@ export default function CarManager({ cars }: CarManagerProps) {
   });
 
   const deleteCarMutation = useMutation({
-    mutationFn: async (id: number) => {
+    // mutationFn: async (id: number) => {
+    mutationFn: async (id) => {
       await apiRequest("DELETE", `/api/cars/${id}`);
     },
     onSuccess: () => {
@@ -123,7 +129,8 @@ export default function CarManager({ cars }: CarManagerProps) {
         description: "The car has been removed from the inventory.",
       });
     },
-    onError: (error: Error) => {
+    // onError: (error: Error) => {
+    onError: (error) => {
       toast({
         title: "Error",
         description: `Failed to delete car: ${error.message}`,
@@ -133,7 +140,8 @@ export default function CarManager({ cars }: CarManagerProps) {
   });
 
   const toggleAvailabilityMutation = useMutation({
-    mutationFn: async ({ id, available }: { id: number; available: boolean }) => {
+    // mutationFn: async ({ id, available }: { id: number; available: boolean }) => {
+    mutationFn: async ({ id, available }) => {
       const res = await apiRequest("PUT", `/api/cars/${id}`, { available });
       return res.json();
     },
@@ -144,7 +152,8 @@ export default function CarManager({ cars }: CarManagerProps) {
         description: "The car's availability status has been updated.",
       });
     },
-    onError: (error: Error) => {
+    // onError: (error: Error) => {
+    onError: (error) => {
       toast({
         title: "Error",
         description: `Failed to update availability: ${error.message}`,
@@ -153,27 +162,32 @@ export default function CarManager({ cars }: CarManagerProps) {
     },
   });
 
-  const onSubmitCreate = (data: CarFormValues) => {
+  // const onSubmitCreate = (data: CarFormValues) => {
+  const onSubmitCreate = (data) => {
     createCarMutation.mutate(data);
   };
 
-  const onSubmitEdit = (data: CarFormValues) => {
+  // const onSubmitEdit = (data: CarFormValues) => {
+  const onSubmitEdit = (data) => {
     if (selectedCar) {
       updateCarMutation.mutate({ id: selectedCar.id, data });
     }
   };
 
-  const handleDelete = (id: number) => {
+  // const handleDelete = (id: number) => {
+  const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) {
       deleteCarMutation.mutate(id);
     }
   };
 
-  const handleToggleAvailability = (id: number, currentAvailability: boolean) => {
+  // const handleToggleAvailability = (id: number, currentAvailability: boolean) => {
+  const handleToggleAvailability = (id, currentAvailability) => {
     toggleAvailabilityMutation.mutate({ id, available: !currentAvailability });
   };
 
-  const handleEditCar = (car: Car) => {
+  // const handleEditCar = (car: Car) => {
+  const handleEditCar = (car) => {
     setSelectedCar(car);
     form.reset({
       brand: car.brand,

@@ -22,13 +22,14 @@ const formSchema = bookingDatesSchema.extend({
   dropoffLocation: z.string().min(1, "Dropoff location is required"),
 });
 
-type HeroFormValues = z.infer<typeof formSchema>;
+// type HeroFormValues = z.infer<typeof formSchema>;
 
-interface HeroSectionProps {
-  onSearch: (filters: Partial<CarFilter>) => void;
-}
+// interface HeroSectionProps {
+//   onSearch: (filters: Partial<CarFilter>) => void;
+// }
 
-export default function HeroSection({ onSearch }: HeroSectionProps) {
+// export default function HeroSection({ onSearch }: HeroSectionProps) {
+export default function HeroSection({ onSearch }) {
   const [, navigate] = useLocation();
   const [isSameLocation, setIsSameLocation] = useState(true);
   
@@ -37,7 +38,8 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
   
-  const formatDate = (date: Date) => {
+  // const formatDate = (date: Date) => {
+  const formatDate = (date) => {
     return date.toISOString().split('T')[0];
   };
 
@@ -51,7 +53,8 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
     },
   });
 
-  const onSubmit = (data: HeroFormValues) => {
+  // const onSubmit = (data: HeroFormValues) => {
+  const onSubmit = (data) => {
     // Jump to car section
     navigate("/#cars");
     
@@ -65,7 +68,8 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
     }
   };
 
-  const handleDropoffChange = (value: string) => {
+  // const handleDropoffChange = (value: string) => {
+  const handleDropoffChange = (value) => {
     setIsSameLocation(value === "same");
     
     if (value === "same") {

@@ -5,21 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-interface CarFiltersProps {
-  currentFilters: CarFilter;
-  onFilterChange: (newFilters: Partial<CarFilter>) => void;
-}
+// interface CarFiltersProps {
+//   currentFilters: CarFilter;
+//   onFilterChange: (newFilters: Partial<CarFilter>) => void;
+// }
 
-export default function CarFilters({ currentFilters, onFilterChange }: CarFiltersProps) {
+// export default function CarFilters({ currentFilters, onFilterChange }: CarFiltersProps) {
+export default function CarFilters({ currentFilters, onFilterChange }) {
   // Local state for filters before applying
-  const [typeFilters, setTypeFilters] = useState<string[]>(currentFilters.type || []);
-  const [priceRange, setPriceRange] = useState<number[]>([
+  // const [typeFilters, setTypeFilters] = useState<string[]>(currentFilters.type || []);
+  const [typeFilters, setTypeFilters] = useState(currentFilters.type || []);
+  // const [priceRange, setPriceRange] = useState<number[]>([
+  const [priceRange, setPriceRange] = useState([
     currentFilters.priceMin || 0,
     currentFilters.priceMax || 200
   ]);
-  const [featuresFilters, setFeaturesFilters] = useState<string[]>(currentFilters.features || []);
-  const [seatsFilters, setSeatsFilters] = useState<string[]>(currentFilters.seats || []);
-  const [transmissionFilters, setTransmissionFilters] = useState<string[]>(currentFilters.transmission || []);
+  // const [featuresFilters, setFeaturesFilters] = useState<string[]>(currentFilters.features || []);
+  const [featuresFilters, setFeaturesFilters] = useState(currentFilters.features || []);
+  // const [seatsFilters, setSeatsFilters] = useState<string[]>(currentFilters.seats || []);
+  const [seatsFilters, setSeatsFilters] = useState(currentFilters.seats || []);
+  // const [transmissionFilters, setTransmissionFilters] = useState<string[]>(currentFilters.transmission || []);
+  const [transmissionFilters, setTransmissionFilters] = useState(currentFilters.transmission || []);
 
   useEffect(() => {
     // Update local state when currentFilters change
@@ -30,7 +36,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
     setTransmissionFilters(currentFilters.transmission || []);
   }, [currentFilters]);
 
-  const handleTypeChange = (type: string, checked: boolean) => {
+  // const handleTypeChange = (type: string, checked: boolean) => {
+  const handleTypeChange = (type, checked) => {
     setTypeFilters(prev => 
       checked
         ? [...prev, type]
@@ -38,7 +45,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
     );
   };
 
-  const handleFeaturesChange = (feature: string, checked: boolean) => {
+  // const handleFeaturesChange = (feature: string, checked: boolean) => {
+  const handleFeaturesChange = (feature, checked) => {
     setFeaturesFilters(prev => 
       checked
         ? [...prev, feature]
@@ -46,7 +54,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
     );
   };
 
-  const handleSeatsChange = (seats: string, checked: boolean) => {
+  // const handleSeatsChange = (seats: string, checked: boolean) => {
+  const handleSeatsChange = (seats, checked) => {
     setSeatsFilters(prev => 
       checked
         ? [...prev, seats]
@@ -54,7 +63,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
     );
   };
 
-  const handleTransmissionChange = (transmission: string, checked: boolean) => {
+  // const handleTransmissionChange = (transmission: string, checked: boolean) => {
+  const handleTransmissionChange = (transmission, checked) => {
     setTransmissionFilters(prev => 
       checked
         ? [...prev, transmission]
@@ -62,7 +72,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
     );
   };
 
-  const handlePriceRangeChange = (values: number[]) => {
+  // const handlePriceRangeChange = (values: number[]) => {
+  const handlePriceRangeChange = (values) => {
     setPriceRange(values);
   };
 
@@ -89,7 +100,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
                 <Checkbox 
                   id={`type-${type}`} 
                   checked={typeFilters.includes(type)} 
-                  onCheckedChange={(checked) => handleTypeChange(type, checked as boolean)}
+                  // onCheckedChange={(checked) => handleTypeChange(type, checked as boolean)}
+                  onCheckedChange={(checked) => handleTypeChange(type, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
                 <Label htmlFor={`type-${type}`} className="text-white">{type}</Label>
@@ -124,7 +136,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
                 <Checkbox 
                   id={`feature-${feature}`} 
                   checked={featuresFilters.includes(feature)} 
-                  onCheckedChange={(checked) => handleFeaturesChange(feature, checked as boolean)}
+                  // onCheckedChange={(checked) => handleFeaturesChange(feature, checked as boolean)}
+                  onCheckedChange={(checked) => handleFeaturesChange(feature, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
                 <Label htmlFor={`feature-${feature}`} className="text-white">{feature}</Label>
@@ -141,7 +154,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
                 <Checkbox 
                   id={`seats-${seats}`} 
                   checked={seatsFilters.includes(seats)} 
-                  onCheckedChange={(checked) => handleSeatsChange(seats, checked as boolean)}
+                  // onCheckedChange={(checked) => handleSeatsChange(seats, checked as boolean)}
+                  onCheckedChange={(checked) => handleSeatsChange(seats, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
                 <Label htmlFor={`seats-${seats}`} className="text-white">{seats} passengers</Label>
@@ -158,7 +172,8 @@ export default function CarFilters({ currentFilters, onFilterChange }: CarFilter
                 <Checkbox 
                   id={`transmission-${transmission}`} 
                   checked={transmissionFilters.includes(transmission)} 
-                  onCheckedChange={(checked) => handleTransmissionChange(transmission, checked as boolean)}
+                  // onCheckedChange={(checked) => handleTransmissionChange(transmission, checked as boolean)}
+                  onCheckedChange={(checked) => handleTransmissionChange(transmission, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
                 <Label htmlFor={`transmission-${transmission}`} className="text-white">{transmission}</Label>

@@ -1,5 +1,7 @@
+"use client"
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+// import { Link, useLocation } from "wouter";
+import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -21,7 +23,8 @@ export default function Header() {
     logoutMutation.mutate();
   };
 
-  const getInitials = (name: string) => {
+  // const getInitials = (name: string) => {
+  const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 

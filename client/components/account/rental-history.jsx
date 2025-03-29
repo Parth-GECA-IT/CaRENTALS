@@ -7,16 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Eye, Calendar, MapPin } from "lucide-react";
 
-interface RentalHistoryProps {
-  bookings: (Booking & { car: Car })[];
-  isAdmin?: boolean;
-}
+// interface RentalHistoryProps {
+//   bookings: (Booking & { car: Car })[];
+//   isAdmin?: boolean;
+// }
 
-export default function RentalHistory({ bookings, isAdmin = false }: RentalHistoryProps) {
+// export default function RentalHistory({ bookings, isAdmin = false }: RentalHistoryProps) {
+export default function RentalHistory({ bookings, isAdmin = false }) {
   const [, navigate] = useLocation();
   const [filter, setFilter] = useState<string>("all");
   
-  const getStatusBadgeColor = (status: string) => {
+  // const getStatusBadgeColor = (status: string) => {
+    const getStatusBadgeColor = (status) => {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-800";
@@ -31,7 +33,8 @@ export default function RentalHistory({ bookings, isAdmin = false }: RentalHisto
     }
   };
   
-  const formatDate = (dateString: string | Date) => {
+  // const formatDate = (dateString: string | Date) => {
+  const formatDate = (dateString) => {
     return format(new Date(dateString), "MMM dd, yyyy");
   };
 

@@ -23,17 +23,18 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2, Calendar, MapPin, CreditCard } from "lucide-react";
 import { DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-interface BookingFormProps {
-  car: Car;
-  onSuccess: () => void;
-}
+// interface BookingFormProps {
+//   car: Car;
+//   onSuccess: () => void;
+// }
 
 // Get today's date and tomorrow's date in YYYY-MM-DD format
 const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
 
-const formatDate = (date: Date) => {
+// const formatDate = (date: Date) => {
+const formatDate = (date) => {
   return date.toISOString().split('T')[0];
 };
 
@@ -52,9 +53,10 @@ const bookingFormSchema = insertBookingSchema.omit({
 });
 
 // Get form values type directly from the schema
-type BookingFormValues = z.infer<typeof bookingFormSchema>;
+// type BookingFormValues = z.infer<typeof bookingFormSchema>;
 
-export default function BookingForm({ car, onSuccess }: BookingFormProps) {
+// export default function BookingForm({ car, onSuccess }: BookingFormProps) {
+export default function BookingForm({ car, onSuccess }) {
   const { user } = useAuth();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
@@ -84,7 +86,8 @@ export default function BookingForm({ car, onSuccess }: BookingFormProps) {
   });
 
   const createBookingMutation = useMutation({
-    mutationFn: async (data: BookingFormValues) => {
+    // mutationFn: async (data: BookingFormValues) => {
+    mutationFn: async (data) => {
       // Calculate rental days and total price
       const startDate = new Date(data.startDate);
       const endDate = new Date(data.endDate);
@@ -115,7 +118,8 @@ export default function BookingForm({ car, onSuccess }: BookingFormProps) {
       });
       onSuccess();
     },
-    onError: (error: Error) => {
+    // onError: (error: Error) => {
+    onError: (error) => {
       toast({
         title: "Booking Failed",
         description: error.message || "There was an issue with your booking. Please try again.",
@@ -140,7 +144,8 @@ export default function BookingForm({ car, onSuccess }: BookingFormProps) {
     };
   };
 
-  const onSubmit = (data: BookingFormValues) => {
+  // const onSubmit = (data: BookingFormValues) => {
+  const onSubmit = (data) => {
     if (step === 1) {
       setStep(2);
     } else {

@@ -3,11 +3,12 @@ import { Car } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Star, Users, CheckCircle2 } from "lucide-react";
 
-interface CarCardProps {
-  car: Car;
-}
+// interface CarCardProps {
+//   car: Car;
+// }
 
-export default function CarCard({ car }: CarCardProps) {
+// export default function CarCard({ car }: CarCardProps) {
+export default function CarCard({ car }) {
   const [, navigate] = useLocation();
 
   const handleViewDetails = () => {

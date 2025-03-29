@@ -5,11 +5,12 @@ import CarCard from "./car-card";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
-interface CarGridProps {
-  filters: CarFilter;
-}
+// interface CarGridProps {
+//   filters: CarFilter;
+// }
 
-export default function CarGrid({ filters }: CarGridProps) {
+// export default function CarGrid({ filters }: CarGridProps) {
+export default function CarGrid({ filters }) {
   const [visibleCars, setVisibleCars] = useState(6);
   
   // Construct the query string from filters
@@ -50,7 +51,8 @@ export default function CarGrid({ filters }: CarGridProps) {
   const queryString = getQueryString();
   const queryUrl = `/api/cars${queryString ? `?${queryString}` : ''}`;
   
-  const { data: cars, isLoading, error } = useQuery<Car[]>({
+  // const { data: cars, isLoading, error } = useQuery<Car[]>({
+  const { data: cars, isLoading, error } = useQuery({
     queryKey: [queryUrl],
   });
   
@@ -90,7 +92,8 @@ export default function CarGrid({ filters }: CarGridProps) {
   }
   
   // For the demo, let's create some sample cars since the API is not connected
-  const sampleCars: Car[] = [
+  // const sampleCars: Car[] = [
+  const sampleCars = [
     {
       id: 1,
       brand: "Hyundai",
