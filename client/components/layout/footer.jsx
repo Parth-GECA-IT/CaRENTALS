@@ -1,6 +1,5 @@
-// import { Link } from "wouter";
-// import { Twitter, Facebook, Instagram, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
+import { Twitter, Facebook, Instagram, MapPin, Phone, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -32,17 +31,13 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-[#FF6B35]">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-gray-400 hover:text-[#FF6B35]">Home</a>
-                </Link>
+                <Link href="/" className="text-gray-400 hover:text-[#FF6B35]">Home</Link>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#FF6B35]">About Us</a>
               </li>
               <li>
-                <Link href="/#cars">
-                  <a className="text-gray-400 hover:text-[#FF6B35]">Cars</a>
-                </Link>
+                <Link href="/#cars" className="text-gray-400 hover:text-[#FF6B35]">Cars</Link>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#FF6B35]">Pricing</a>

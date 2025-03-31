@@ -1,8 +1,6 @@
 "use client"
 import { useState } from "react";
-// import { Link, useLocation } from "wouter";
 import Link from "next/link";
-import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -15,15 +13,21 @@ import {
 import { Car, Menu, User, LogOut, Settings } from "lucide-react";
 
 export default function Header() {
-  const [location] = useLocation();
+  const location = "/";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, logoutMutation } = useAuth();
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
+  
+  // Static user data instead of fetched data
+  const user = {
+    fullName: "John Doe",
+    email: "john.doe@example.com",
+    isAdmin: true,
   };
 
-  // const getInitials = (name: string) => {
+  const handleLogout = () => {
+    console.log("User logged out");
+    // Static logout functionality
+  };
+
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
@@ -34,8 +38,8 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <Link href="/">
             <div className="flex items-center space-x-2 cursor-pointer">
-              <img src="/car-logo.svg" alt="Car Rental Logo" className="h-10 w-10" />
-              <h1 className="text-xl font-bold text-white">CarRide<span className="text-[#FF6B35]">X</span></h1>
+              <img src="/logo2.png" alt="CaRENTALS" className="h-16 w-16" />
+              <h1 className="text-xl font-bold text-white">Ca<span className="text-[#FF6B35]">RENTALS</span></h1>
             </div>
           </Link>
         </div>

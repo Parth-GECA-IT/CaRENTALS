@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
@@ -58,7 +60,9 @@ const CommandEmpty = React.forwardRef((props, ref) => (
     ref={ref}
     className="py-6 text-center text-sm"
     {...props}
-  />
+  >
+    No results found.
+  </CommandPrimitive.Empty>
 ));
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 

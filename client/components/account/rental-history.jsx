@@ -1,24 +1,16 @@
+"use client"
 import { useState } from "react";
-import { useLocation } from "wouter";
 import { format } from "date-fns";
-import { Booking, Car } from "@shared/schema";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Eye, Calendar, MapPin } from "lucide-react";
+import Link from "next/link";
 
-// interface RentalHistoryProps {
-//   bookings: (Booking & { car: Car })[];
-//   isAdmin?: boolean;
-// }
-
-// export default function RentalHistory({ bookings, isAdmin = false }: RentalHistoryProps) {
-export default function RentalHistory({ bookings, isAdmin = false }) {
-  const [, navigate] = useLocation();
-  const [filter, setFilter] = useState<string>("all");
+export default function RentalHistory({ isAdmin = false }) {
+  const [filter, setFilter] = useState("all");
   
-  // const getStatusBadgeColor = (status: string) => {
-    const getStatusBadgeColor = (status) => {
+  const getStatusBadgeColor = (status) => {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-800";
@@ -33,10 +25,64 @@ export default function RentalHistory({ bookings, isAdmin = false }) {
     }
   };
   
-  // const formatDate = (dateString: string | Date) => {
   const formatDate = (dateString) => {
     return format(new Date(dateString), "MMM dd, yyyy");
   };
+
+  // Static bookings data
+  const bookings = [
+    {
+      id: 1,
+      status: "confirmed",
+      startDate: "2023-10-15",
+      endDate: "2023-10-18",
+      totalPrice: 4497,
+      pickupLocation: "New York Downtown",
+      dropoffLocation: "New York Downtown",
+      createdAt: "2023-10-10",
+      car: {
+        id: 1,
+        brand: "Hyundai",
+        model: "Veloster",
+        type: "Coupe",
+        imageUrl: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80"
+      }
+    },
+    {
+      id: 2,
+      status: "pending",
+      startDate: "2023-11-05",
+      endDate: "2023-11-07",
+      totalPrice: 3798,
+      pickupLocation: "Los Angeles Airport",
+      dropoffLocation: "Los Angeles Downtown",
+      createdAt: "2023-10-25",
+      car: {
+        id: 2,
+        brand: "Mazda",
+        model: "MX-5",
+        type: "Convertible",
+        imageUrl: "https://images.unsplash.com/photo-1555353540-64580b51c258?auto=format&fit=crop&w=600&q=80"
+      }
+    },
+    {
+      id: 3,
+      status: "completed",
+      startDate: "2023-09-20",
+      endDate: "2023-09-22",
+      totalPrice: 4998,
+      pickupLocation: "Chicago Downtown",
+      dropoffLocation: "Chicago Downtown",
+      createdAt: "2023-09-15",
+      car: {
+        id: 3,
+        brand: "BMW",
+        model: "3 Series",
+        type: "Sedan",
+        imageUrl: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=600&q=80"
+      }
+    }
+  ];
 
   const filteredBookings = filter === "all" 
     ? bookings 
@@ -57,7 +103,7 @@ export default function RentalHistory({ bookings, isAdmin = false }) {
             : `You don't have any ${filter} bookings.`}
         </p>
         <Button 
-          onClick={() => navigate("/")}
+          onClick={() => window.location.href = "/"}
           className="bg-[#3B82F6] hover:bg-[#3B82F6]/90"
         >
           Browse Cars
@@ -150,15 +196,16 @@ export default function RentalHistory({ bookings, isAdmin = false }) {
                   </div>
                   
                   <div className="flex justify-end">
-                    <Button 
-                      onClick={() => navigate(`/booking/${booking.id}`)}
-                      variant="outline"
-                      className="text-[#3B82F6] border-[#3B82F6]"
-                      size="sm"
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      View Details
-                    </Button>
+                    <Link href={`/booking/${booking.id}`}>
+                      <Button 
+                        variant="outline"
+                        className="text-[#3B82F6] border-[#3B82F6]"
+                        size="sm"
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Details
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -1,9 +1,10 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
-import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -48,8 +49,20 @@ const SidebarProvider = React.forwardRef(
     },
     ref
   ) => {
-    const isMobile = useIsMobile()
+    const [isMobile, setIsMobile] = React.useState(false)
     const [openMobile, setOpenMobile] = React.useState(false)
+
+    // Check for mobile on mount and window resize
+    React.useEffect(() => {
+      const checkIsMobile = () => {
+        setIsMobile(window.innerWidth < 768)
+      }
+      
+      checkIsMobile()
+      window.addEventListener('resize', checkIsMobile)
+      
+      return () => window.removeEventListener('resize', checkIsMobile)
+    }, [])
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.

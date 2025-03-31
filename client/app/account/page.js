@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Booking, Car } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2, User, History, LogOut } from "lucide-react";
 import Header from "@/components/layout/header";
@@ -12,14 +11,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
-type BookingWithCar = Booking & { car: Car };
-
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("profile");
   const [, navigate] = useLocation();
   const { user, logoutMutation } = useAuth();
 
-  const { data: bookings, isLoading: isLoadingBookings } = useQuery<BookingWithCar[]>({
+  const { data: bookings, isLoading: isLoadingBookings } = useQuery({
     queryKey: ["/api/bookings"],
     enabled: !!user,
   });

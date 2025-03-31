@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRoute, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Car, Booking } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -14,22 +13,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
-type BookingWithCar = Booking & { car: Car };
-
 export default function BookingPage() {
-  const [match, params] = useRoute<{ id: string }>("/booking/:id");
+  const [match, params] = useRoute("/booking/:id");
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
-  const [loadingState, setLoadingState] = useState<string | null>(null);
+  const [loadingState, setLoadingState] = useState(null);
 
-  const { data: bookingData, isLoading, error } = useQuery<BookingWithCar>({
+  const { data: bookingData, isLoading, error } = useQuery({
     queryKey: [`/api/bookings/${params?.id}`],
     enabled: !!params?.id,
   });
 
   const updateStatusMutation = useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: string }) => {
+    mutationFn: async ({ id, status }) => {
       const res = await apiRequest("PATCH", `/api/bookings/${id}/status`, { status });
       return res.json();
     },
@@ -50,7 +47,7 @@ export default function BookingPage() {
     },
   });
 
-  const handleStatusUpdate = (status: string) => {
+  const handleStatusUpdate = (status) => {
     if (!bookingData) return;
     
     setLoadingState(status);
@@ -82,7 +79,7 @@ export default function BookingPage() {
     );
   }
 
-  const getStatusBadgeColor = (status: string) => {
+  const getStatusBadgeColor = (status) => {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-800";
@@ -97,7 +94,7 @@ export default function BookingPage() {
     }
   };
 
-  const formatDate = (dateString: string | Date) => {
+  const formatDate = (dateString) => {
     return format(new Date(dateString), "MMM dd, yyyy");
   };
 

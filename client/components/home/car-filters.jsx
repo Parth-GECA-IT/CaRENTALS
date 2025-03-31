@@ -1,42 +1,30 @@
+"use client"
 import { useState, useEffect } from "react";
-import { CarFilter } from "@shared/schema";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-// interface CarFiltersProps {
-//   currentFilters: CarFilter;
-//   onFilterChange: (newFilters: Partial<CarFilter>) => void;
-// }
-
-// export default function CarFilters({ currentFilters, onFilterChange }: CarFiltersProps) {
 export default function CarFilters({ currentFilters, onFilterChange }) {
   // Local state for filters before applying
-  // const [typeFilters, setTypeFilters] = useState<string[]>(currentFilters.type || []);
-  const [typeFilters, setTypeFilters] = useState(currentFilters.type || []);
-  // const [priceRange, setPriceRange] = useState<number[]>([
+  const [typeFilters, setTypeFilters] = useState(currentFilters?.type || []);
   const [priceRange, setPriceRange] = useState([
-    currentFilters.priceMin || 0,
-    currentFilters.priceMax || 200
+    currentFilters?.priceMin || 0,
+    currentFilters?.priceMax || 200
   ]);
-  // const [featuresFilters, setFeaturesFilters] = useState<string[]>(currentFilters.features || []);
-  const [featuresFilters, setFeaturesFilters] = useState(currentFilters.features || []);
-  // const [seatsFilters, setSeatsFilters] = useState<string[]>(currentFilters.seats || []);
-  const [seatsFilters, setSeatsFilters] = useState(currentFilters.seats || []);
-  // const [transmissionFilters, setTransmissionFilters] = useState<string[]>(currentFilters.transmission || []);
-  const [transmissionFilters, setTransmissionFilters] = useState(currentFilters.transmission || []);
+  const [featuresFilters, setFeaturesFilters] = useState(currentFilters?.features || []);
+  const [seatsFilters, setSeatsFilters] = useState(currentFilters?.seats || []);
+  const [transmissionFilters, setTransmissionFilters] = useState(currentFilters?.transmission || []);
 
   useEffect(() => {
     // Update local state when currentFilters change
-    setTypeFilters(currentFilters.type || []);
-    setPriceRange([currentFilters.priceMin || 0, currentFilters.priceMax || 200]);
-    setFeaturesFilters(currentFilters.features || []);
-    setSeatsFilters(currentFilters.seats || []);
-    setTransmissionFilters(currentFilters.transmission || []);
+    setTypeFilters(currentFilters?.type || []);
+    setPriceRange([currentFilters?.priceMin || 0, currentFilters?.priceMax || 200]);
+    setFeaturesFilters(currentFilters?.features || []);
+    setSeatsFilters(currentFilters?.seats || []);
+    setTransmissionFilters(currentFilters?.transmission || []);
   }, [currentFilters]);
 
-  // const handleTypeChange = (type: string, checked: boolean) => {
   const handleTypeChange = (type, checked) => {
     setTypeFilters(prev => 
       checked
@@ -45,7 +33,6 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
     );
   };
 
-  // const handleFeaturesChange = (feature: string, checked: boolean) => {
   const handleFeaturesChange = (feature, checked) => {
     setFeaturesFilters(prev => 
       checked
@@ -54,7 +41,6 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
     );
   };
 
-  // const handleSeatsChange = (seats: string, checked: boolean) => {
   const handleSeatsChange = (seats, checked) => {
     setSeatsFilters(prev => 
       checked
@@ -63,7 +49,6 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
     );
   };
 
-  // const handleTransmissionChange = (transmission: string, checked: boolean) => {
   const handleTransmissionChange = (transmission, checked) => {
     setTransmissionFilters(prev => 
       checked
@@ -72,7 +57,6 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
     );
   };
 
-  // const handlePriceRangeChange = (values: number[]) => {
   const handlePriceRangeChange = (values) => {
     setPriceRange(values);
   };
@@ -89,18 +73,23 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
     });
   };
 
+  // Static data for filter options
+  const carTypes = ["Economy", "Compact", "Midsize", "SUV", "Luxury", "Minivan", "Sport", "Electric"];
+  const features = ["Automatic Transmission", "Bluetooth", "Navigation System", "Backup Camera", "Sunroof", "Leather Seats", "Premium Audio", "All-wheel Drive"];
+  const passengerCapacities = ["2-4", "5-7", "8+"];
+  const transmissionTypes = ["Automatic", "Manual"];
+
   return (
     <div className="lg:w-1/4">
       <div className="bg-[#222222] rounded-lg shadow-md p-5 border border-[#333333]">
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3 text-[#FF6B35]">Car Type</h3>
           <div className="space-y-2">
-            {["Economy", "Compact", "Midsize", "SUV", "Luxury", "Minivan", "Sport", "Electric"].map((type) => (
+            {carTypes.map((type) => (
               <div key={type} className="flex items-center space-x-2">
                 <Checkbox 
                   id={`type-${type}`} 
                   checked={typeFilters.includes(type)} 
-                  // onCheckedChange={(checked) => handleTypeChange(type, checked as boolean)}
                   onCheckedChange={(checked) => handleTypeChange(type, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -131,12 +120,11 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3 text-[#FF6B35]">Features</h3>
           <div className="space-y-2">
-            {["Automatic Transmission", "Bluetooth", "Navigation System", "Backup Camera", "Sunroof", "Leather Seats", "Premium Audio", "All-wheel Drive"].map((feature) => (
+            {features.map((feature) => (
               <div key={feature} className="flex items-center space-x-2">
                 <Checkbox 
                   id={`feature-${feature}`} 
                   checked={featuresFilters.includes(feature)} 
-                  // onCheckedChange={(checked) => handleFeaturesChange(feature, checked as boolean)}
                   onCheckedChange={(checked) => handleFeaturesChange(feature, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -149,12 +137,11 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3 text-[#FF6B35]">Passenger Capacity</h3>
           <div className="space-y-2">
-            {["2-4", "5-7", "8+"].map((seats) => (
+            {passengerCapacities.map((seats) => (
               <div key={seats} className="flex items-center space-x-2">
                 <Checkbox 
                   id={`seats-${seats}`} 
                   checked={seatsFilters.includes(seats)} 
-                  // onCheckedChange={(checked) => handleSeatsChange(seats, checked as boolean)}
                   onCheckedChange={(checked) => handleSeatsChange(seats, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -167,12 +154,11 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3 text-[#FF6B35]">Transmission</h3>
           <div className="space-y-2">
-            {["Automatic", "Manual"].map((transmission) => (
+            {transmissionTypes.map((transmission) => (
               <div key={transmission} className="flex items-center space-x-2">
                 <Checkbox 
                   id={`transmission-${transmission}`} 
                   checked={transmissionFilters.includes(transmission)} 
-                  // onCheckedChange={(checked) => handleTransmissionChange(transmission, checked as boolean)}
                   onCheckedChange={(checked) => handleTransmissionChange(transmission, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />

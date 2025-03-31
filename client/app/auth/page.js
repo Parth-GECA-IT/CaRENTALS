@@ -1,10 +1,6 @@
+"use client"
+
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/use-auth";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { insertUserSchema, InsertUser } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,46 +15,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-
-const loginFormSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type LoginFormValues = z.infer<typeof loginFormSchema>;
-
-const registerFormSchema = insertUserSchema.extend({
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
-
-type RegisterFormValues = z.infer<typeof registerFormSchema>;
+import { useForm } from "react-hook-form";
 
 export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
-  const [location, navigate] = useLocation();
-  const { user, loginMutation, registerMutation, isLoading } = useAuth();
+  const [activeTab, setActiveTab] = useState("login");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  // Mock user state
+  const [user, setUser] = useState(null);
+  
+  // Mock navigation
+  const navigate = (path) => {
+    console.log(`Navigating to: ${path}`);
+  };
 
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user]);
 
-  const loginForm = useForm<LoginFormValues>({
-    resolver: zodResolver(loginFormSchema),
+  const loginForm = useForm({
     defaultValues: {
       username: "",
       password: "",
     },
   });
 
-  const registerForm = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerFormSchema),
+  const registerForm = useForm({
     defaultValues: {
       username: "",
       password: "",
@@ -69,13 +55,28 @@ export default function AuthPage() {
     },
   });
 
-  const onLoginSubmit = (data: LoginFormValues) => {
-    loginMutation.mutate(data);
+  const onLoginSubmit = (data) => {
+    setIsPending(true);
+    // Simulate API call
+    setTimeout(() => {
+      console.log("Login data:", data);
+      setIsPending(false);
+      // Mock successful login
+      setUser({ username: data.username });
+      navigate("/");
+    }, 1500);
   };
 
-  const onRegisterSubmit = (data: RegisterFormValues) => {
-    const { confirmPassword, ...registerData } = data;
-    registerMutation.mutate(registerData);
+  const onRegisterSubmit = (data) => {
+    setIsPending(true);
+    // Simulate API call
+    setTimeout(() => {
+      console.log("Register data:", data);
+      setIsPending(false);
+      // Mock successful registration
+      setUser({ username: data.username });
+      navigate("/");
+    }, 1500);
   };
 
   if (isLoading) {
@@ -98,7 +99,7 @@ export default function AuthPage() {
               <div className="md:w-1/2 p-8">
                 <h1 className="text-2xl font-bold text-white mb-6">Welcome to CarRide<span className="text-[#FF6B35]">X</span></h1>
                 
-                <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "login" | "register")} className="text-gray-200">
+                <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="text-gray-200">
                   <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#222222]">
                     <TabsTrigger value="login" className="data-[state=active]:bg-[#FF6B35] data-[state=active]:text-white">Login</TabsTrigger>
                     <TabsTrigger value="register" className="data-[state=active]:bg-[#FF6B35] data-[state=active]:text-white">Register</TabsTrigger>
@@ -138,9 +139,9 @@ export default function AuthPage() {
                         <Button 
                           type="submit" 
                           className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
-                          disabled={loginMutation.isPending}
+                          disabled={isPending}
                         >
-                          {loginMutation.isPending ? (
+                          {isPending ? (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           ) : null}
                           Sign In
@@ -249,9 +250,9 @@ export default function AuthPage() {
                         <Button 
                           type="submit" 
                           className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
-                          disabled={registerMutation.isPending}
+                          disabled={isPending}
                         >
-                          {registerMutation.isPending ? (
+                          {isPending ? (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           ) : null}
                           Create Account

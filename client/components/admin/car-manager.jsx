@@ -1,11 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Car, insertCarSchema, InsertCar } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,23 +22,58 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, PenSquare, Plus, Trash2 } from "lucide-react";
 
-const carFormSchema = insertCarSchema.extend({
-  features: z.string()
-    .transform(str => str.split(',').map(s => s.trim()).filter(s => s !== ''))
-});
+// Mock data for cars
+const mockCars = [
+  {
+    id: 1,
+    brand: "Toyota",
+    model: "Camry",
+    year: 2023,
+    type: "Sedan",
+    transmission: "Automatic",
+    fuelType: "Gasoline",
+    seats: 5,
+    pricePerDay: 75,
+    features: ["Bluetooth", "Backup Camera", "Cruise Control", "USB Port"],
+    imageUrl: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3",
+    available: true
+  },
+  {
+    id: 2,
+    brand: "Honda",
+    model: "CR-V",
+    year: 2022,
+    type: "SUV",
+    transmission: "Automatic",
+    fuelType: "Hybrid",
+    seats: 5,
+    pricePerDay: 95,
+    features: ["Navigation", "Sunroof", "Heated Seats", "Apple CarPlay"],
+    imageUrl: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3",
+    available: false
+  },
+  {
+    id: 3,
+    brand: "Tesla",
+    model: "Model 3",
+    year: 2023,
+    type: "Electric",
+    transmission: "Automatic",
+    fuelType: "Electric",
+    seats: 5,
+    pricePerDay: 120,
+    features: ["Autopilot", "Premium Sound", "Heated Seats", "Supercharging"],
+    imageUrl: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3",
+    available: true
+  }
+];
 
-// type CarFormValues = z.infer<typeof carFormSchema>;
-
-// interface CarManagerProps {
-//   cars: Car[];
-// }
-
-// export default function CarManager({ cars }: CarManagerProps) {
-export default function CarManager({ cars }) {
+export default function CarManager() {
   const { toast } = useToast();
+  const [cars, setCars] = useState(mockCars);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [selectedCar, setSelectedCar] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
   
   const filteredCars = activeTab === "all" 
@@ -52,8 +84,7 @@ export default function CarManager({ cars }) {
 
   const sortedCars = [...filteredCars].sort((a, b) => a.id - b.id);
 
-  const form = useForm<CarFormValues>({
-    resolver: zodResolver(carFormSchema),
+  const form = useForm({
     defaultValues: {
       brand: "",
       model: "",
@@ -68,125 +99,105 @@ export default function CarManager({ cars }) {
     },
   });
 
-  const createCarMutation = useMutation({
-    // mutationFn: async (data: CarFormValues) => {
-    mutationFn: async (data) => {
-      const res = await apiRequest("POST", "/api/cars", data);
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cars"] });
-      toast({
-        title: "Car Created",
-        description: "The car has been added to the inventory.",
-      });
-      setOpenCreateDialog(false);
-      form.reset();
-    },
-    // onError: (error: Error) => {
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: `Failed to create car: ${error.message}`,
-        variant: "destructive",
-      });
-    },
-  });
+  const validateForm = (data) => {
+    const errors = {};
+    
+    if (!data.brand) errors.brand = "Brand is required";
+    if (!data.model) errors.model = "Model is required";
+    if (data.year < 2000 || data.year > 2030) errors.year = "Year must be between 2000 and 2030";
+    if (!data.type) errors.type = "Type is required";
+    if (!data.transmission) errors.transmission = "Transmission is required";
+    if (!data.fuelType) errors.fuelType = "Fuel type is required";
+    if (data.seats < 2 || data.seats > 9) errors.seats = "Seats must be between 2 and 9";
+    if (data.pricePerDay < 0) errors.pricePerDay = "Price must be a positive number";
+    if (!data.imageUrl || !data.imageUrl.startsWith('http')) errors.imageUrl = "Please enter a valid URL";
+    
+    return errors;
+  };
 
-  const updateCarMutation = useMutation({
-    // mutationFn: async ({ id, data }: { id: number; data: Partial<Car> }) => {
-    mutationFn: async ({ id, data }) => {
-      const res = await apiRequest("PUT", `/api/cars/${id}`, data);
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cars"] });
+  const onSubmitCreate = (data) => {
+    // Validate form data
+    const errors = validateForm(data);
+    if (Object.keys(errors).length > 0) {
+      Object.entries(errors).forEach(([key, value]) => {
+        form.setError(key, { type: 'manual', message: value });
+      });
+      return;
+    }
+
+    // Process features from comma-separated string to array
+    const featuresArray = data.features
+      ? data.features.split(',').map(s => s.trim()).filter(s => s !== '')
+      : [];
+
+    // Mock creating a car
+    const newCar = {
+      ...data,
+      features: featuresArray,
+      id: cars.length + 1,
+      available: true
+    };
+    setCars([...cars, newCar]);
+    toast({
+      title: "Car Created",
+      description: "The car has been added to the inventory.",
+    });
+    setOpenCreateDialog(false);
+    form.reset();
+  };
+
+  const onSubmitEdit = (data) => {
+    if (selectedCar) {
+      // Validate form data
+      const errors = validateForm(data);
+      if (Object.keys(errors).length > 0) {
+        Object.entries(errors).forEach(([key, value]) => {
+          form.setError(key, { type: 'manual', message: value });
+        });
+        return;
+      }
+
+      // Process features from comma-separated string to array
+      const featuresArray = data.features
+        ? data.features.split(',').map(s => s.trim()).filter(s => s !== '')
+        : [];
+
+      // Mock updating a car
+      const updatedCars = cars.map(car => 
+        car.id === selectedCar.id ? { ...car, ...data, features: featuresArray } : car
+      );
+      setCars(updatedCars);
       toast({
         title: "Car Updated",
         description: "The car details have been updated successfully.",
       });
       setOpenEditDialog(false);
-    },
-    // onError: (error: Error) => {
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: `Failed to update car: ${error.message}`,
-        variant: "destructive",
-      });
-    },
-  });
+    }
+  };
 
-  const deleteCarMutation = useMutation({
-    // mutationFn: async (id: number) => {
-    mutationFn: async (id) => {
-      await apiRequest("DELETE", `/api/cars/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cars"] });
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) {
+      // Mock deleting a car
+      setCars(cars.filter(car => car.id !== id));
       toast({
         title: "Car Deleted",
         description: "The car has been removed from the inventory.",
       });
-    },
-    // onError: (error: Error) => {
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: `Failed to delete car: ${error.message}`,
-        variant: "destructive",
-      });
-    },
-  });
-
-  const toggleAvailabilityMutation = useMutation({
-    // mutationFn: async ({ id, available }: { id: number; available: boolean }) => {
-    mutationFn: async ({ id, available }) => {
-      const res = await apiRequest("PUT", `/api/cars/${id}`, { available });
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cars"] });
-      toast({
-        title: "Availability Updated",
-        description: "The car's availability status has been updated.",
-      });
-    },
-    // onError: (error: Error) => {
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: `Failed to update availability: ${error.message}`,
-        variant: "destructive",
-      });
-    },
-  });
-
-  // const onSubmitCreate = (data: CarFormValues) => {
-  const onSubmitCreate = (data) => {
-    createCarMutation.mutate(data);
-  };
-
-  // const onSubmitEdit = (data: CarFormValues) => {
-  const onSubmitEdit = (data) => {
-    if (selectedCar) {
-      updateCarMutation.mutate({ id: selectedCar.id, data });
     }
   };
 
-  // const handleDelete = (id: number) => {
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) {
-      deleteCarMutation.mutate(id);
-    }
-  };
-
-  // const handleToggleAvailability = (id: number, currentAvailability: boolean) => {
   const handleToggleAvailability = (id, currentAvailability) => {
-    toggleAvailabilityMutation.mutate({ id, available: !currentAvailability });
+    // Mock toggling availability
+    const updatedCars = cars.map(car => 
+      car.id === id ? { ...car, available: !currentAvailability } : car
+    );
+    setCars(updatedCars);
+    toast({
+      title: "Availability Updated",
+      description: "The car's availability status has been updated.",
+    });
   };
 
-  // const handleEditCar = (car: Car) => {
   const handleEditCar = (car) => {
     setSelectedCar(car);
     form.reset({
@@ -442,11 +453,7 @@ export default function CarManager({ cars }) {
                 <Button 
                   type="submit" 
                   className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90"
-                  disabled={createCarMutation.isPending}
                 >
-                  {createCarMutation.isPending ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : null}
                   Create Car
                 </Button>
               </form>
@@ -520,7 +527,6 @@ export default function CarManager({ cars }) {
                       size="sm"
                       className="flex-1"
                       onClick={() => handleToggleAvailability(car.id, car.available)}
-                      disabled={toggleAvailabilityMutation.isPending}
                     >
                       {car.available ? 'Set Unavailable' : 'Set Available'}
                     </Button>
@@ -745,11 +751,7 @@ export default function CarManager({ cars }) {
                             <Button 
                               type="submit" 
                               className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90"
-                              disabled={updateCarMutation.isPending}
                             >
-                              {updateCarMutation.isPending ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              ) : null}
                               Update Car
                             </Button>
                           </form>
@@ -761,7 +763,6 @@ export default function CarManager({ cars }) {
                       size="sm"
                       className="flex-none text-red-600 border-red-600 hover:bg-red-50"
                       onClick={() => handleDelete(car.id)}
-                      disabled={deleteCarMutation.isPending}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

@@ -1,25 +1,48 @@
+"use client"
+
 import { useState } from "react";
-import { useRoute, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { Loader2, ChevronLeft, Star, Users, Calendar } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import BookingForm from "@/components/booking/booking-form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Car } from "@shared/schema";
-import { useAuth } from "@/hooks/use-auth";
 
 export default function CarDetails() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [match, params] = useRoute<{ id: string }>("/cars/:id");
-  const [, navigate] = useLocation();
-  const { user } = useAuth();
+  const router = useRouter();
+  
+  // Static user data
+  const user = { id: 1, name: "John Doe" };
+  
+  // Static car data
+  const car = {
+    id: "car123",
+    brand: "Tesla",
+    model: "Model S",
+    year: 2023,
+    seats: 5,
+    rating: 4.8,
+    type: "Electric",
+    transmission: "Automatic",
+    fuelType: "Electric",
+    pricePerDay: 199,
+    imageUrl: "https://images.unsplash.com/photo-1617788138017-80ad40651399?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    available: true,
+    features: [
+      "Autopilot",
+      "Heated Seats",
+      "Premium Sound",
+      "360° Camera",
+      "Supercharging",
+      "Ludicrous Mode"
+    ]
+  };
 
-  const { data: car, isLoading, error } = useQuery<Car>({
-    queryKey: [`/api/cars/${params?.id}`],
-    enabled: !!params?.id,
-  });
+  // Static loading state
+  const isLoading = false;
+  const error = null;
 
   if (isLoading) {
     return (
@@ -35,7 +58,7 @@ export default function CarDetails() {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Car Not Found</h2>
           <p className="text-gray-600 mb-6">The car you're looking for doesn't exist or has been removed.</p>
-          <Button onClick={() => navigate("/")}>Back to Home</Button>
+          <Button onClick={() => router.push("/")}>Back to Home</Button>
         </div>
       </div>
     );
@@ -49,7 +72,7 @@ export default function CarDetails() {
         <div className="mb-4">
           <Button 
             variant="ghost" 
-            onClick={() => navigate("/")}
+            onClick={() => router.push("/")}
             className="flex items-center text-gray-300 hover:text-white"
           >
             <ChevronLeft className="h-4 w-4 mr-1" />
@@ -131,7 +154,7 @@ export default function CarDetails() {
                       car={car}
                       onSuccess={() => {
                         setIsBookingOpen(false);
-                        navigate("/account");
+                        router.push("/account");
                       }}
                     />
                   </DialogContent>
@@ -140,7 +163,7 @@ export default function CarDetails() {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <Button 
                     className="w-full md:w-auto bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white py-3 px-6"
-                    onClick={() => navigate("/auth")}
+                    onClick={() => router.push("/auth")}
                   >
                     Sign In to Book
                   </Button>

@@ -1,8 +1,5 @@
+"use client"
 import { useState } from "react";
-import { useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/use-auth";
-import { Booking, Car } from "@shared/schema";
 import { Loader2, CarFront, BookOpen, Users } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -13,22 +10,87 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import RentalHistory from "@/components/account/rental-history";
 
-type BookingWithCar = Booking & { car: Car };
-
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("cars");
-  const [, navigate] = useLocation();
-  const { user, isLoading } = useAuth();
+  
+  // Static user data
+  const user = {
+    fullName: "John Doe",
+    email: "john.doe@example.com",
+    isAdmin: true
+  };
 
-  const { data: allCars, isLoading: carsLoading } = useQuery<Car[]>({
-    queryKey: ["/api/cars"],
-    enabled: !!user?.isAdmin,
-  });
+  // Static cars data
+  const allCars = [
+    {
+      id: 1,
+      brand: "Hyundai",
+      model: "Veloster",
+      year: 2023,
+      available: true,
+      pricePerDay: 1499,
+      imageUrl: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      id: 2,
+      brand: "Mazda",
+      model: "MX-5",
+      year: 2023,
+      available: true,
+      pricePerDay: 1899,
+      imageUrl: "https://images.unsplash.com/photo-1555353540-64580b51c258?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+      id: 3,
+      brand: "BMW",
+      model: "3 Series",
+      year: 2022,
+      available: false,
+      pricePerDay: 2499,
+      imageUrl: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=600&q=80"
+    }
+  ];
 
-  const { data: allBookings, isLoading: bookingsLoading } = useQuery<BookingWithCar[]>({
-    queryKey: ["/api/admin/bookings"],
-    enabled: !!user?.isAdmin,
-  });
+  // Static bookings data
+  const allBookings = [
+    {
+      id: 1,
+      carId: 1,
+      userId: 101,
+      startDate: "2023-10-15",
+      endDate: "2023-10-18",
+      status: "confirmed",
+      totalPrice: 4497
+    },
+    {
+      id: 2,
+      carId: 2,
+      userId: 102,
+      startDate: "2023-10-20",
+      endDate: "2023-10-25",
+      status: "pending",
+      totalPrice: 9495
+    },
+    {
+      id: 3,
+      carId: 3,
+      userId: 103,
+      startDate: "2023-09-10",
+      endDate: "2023-09-15",
+      status: "completed",
+      totalPrice: 12495
+    }
+  ];
+
+  const handleNavigate = (path) => {
+    console.log(`Navigating to ${path}`);
+    // Navigation would happen here in a real app
+  };
+
+  // Loading state simulation (set to false for static data)
+  const isLoading = false;
+  const carsLoading = false;
+  const bookingsLoading = false;
 
   if (isLoading) {
     return (
@@ -46,20 +108,20 @@ export default function AdminPage() {
           <p className="text-gray-600 mb-6">
             You don't have permission to access the admin panel. This area is restricted to administrators only.
           </p>
-          <Button onClick={() => navigate("/")}>Back to Homepage</Button>
+          <Button onClick={() => handleNavigate("/")}>Back to Homepage</Button>
         </div>
       </div>
     );
   }
 
-  const availableCars = allCars?.filter(car => car.available).length || 0;
-  const totalCars = allCars?.length || 0;
+  const availableCars = allCars.filter(car => car.available).length || 0;
+  const totalCars = allCars.length || 0;
   
-  const activeBookings = allBookings?.filter(
+  const activeBookings = allBookings.filter(
     booking => booking.status === "pending" || booking.status === "confirmed"
   ).length || 0;
   
-  const completedBookings = allBookings?.filter(
+  const completedBookings = allBookings.filter(
     booking => booking.status === "completed"
   ).length || 0;
 
@@ -132,7 +194,7 @@ export default function AdminPage() {
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
                   </div>
                 ) : (
-                  <CarManager cars={allCars || []} />
+                  <CarManager cars={allCars} />
                 )}
               </CardContent>
             </Card>
@@ -148,7 +210,7 @@ export default function AdminPage() {
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
                   </div>
                 ) : (
-                  <RentalHistory bookings={allBookings || []} isAdmin={true} />
+                  <RentalHistory bookings={allBookings} isAdmin={true} />
                 )}
               </CardContent>
             </Card>

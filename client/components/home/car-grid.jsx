@@ -1,98 +1,14 @@
+"use client"
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Car, CarFilter } from "@shared/schema";
 import CarCard from "./car-card";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-// interface CarGridProps {
-//   filters: CarFilter;
-// }
-
-// export default function CarGrid({ filters }: CarGridProps) {
 export default function CarGrid({ filters }) {
   const [visibleCars, setVisibleCars] = useState(6);
-  
-  // Construct the query string from filters
-  const getQueryString = () => {
-    const params = new URLSearchParams();
-    
-    if (filters.type && filters.type.length > 0) {
-      params.append('type', filters.type.join(','));
-    }
-    
-    if (filters.priceMin !== undefined) {
-      params.append('priceMin', filters.priceMin.toString());
-    }
-    
-    if (filters.priceMax !== undefined) {
-      params.append('priceMax', filters.priceMax.toString());
-    }
-    
-    if (filters.features && filters.features.length > 0) {
-      params.append('features', filters.features.join(','));
-    }
-    
-    if (filters.seats && filters.seats.length > 0) {
-      params.append('seats', filters.seats.join(','));
-    }
-    
-    if (filters.transmission && filters.transmission.length > 0) {
-      params.append('transmission', filters.transmission.join(','));
-    }
-    
-    if (filters.available !== undefined) {
-      params.append('available', filters.available.toString());
-    }
-    
-    return params.toString();
-  };
-  
-  const queryString = getQueryString();
-  const queryUrl = `/api/cars${queryString ? `?${queryString}` : ''}`;
-  
-  // const { data: cars, isLoading, error } = useQuery<Car[]>({
-  const { data: cars, isLoading, error } = useQuery({
-    queryKey: [queryUrl],
-  });
-  
-  const loadMore = () => {
-    setVisibleCars(prev => prev + 6);
-  };
-  
-  if (isLoading) {
-    return (
-      <div className="lg:w-3/4 flex justify-center items-center min-h-[300px]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#FF6B35]" />
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="lg:w-3/4 flex justify-center items-center min-h-[300px]">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold text-white mb-2">Error Loading Cars</h3>
-          <p className="text-gray-300 mb-4">There was a problem fetching the car listings.</p>
-          <Button onClick={() => window.location.reload()} className="bg-[#FF6B35] hover:bg-[#FF6B35]/90">Try Again</Button>
-        </div>
-      </div>
-    );
-  }
-  
-  if (!cars || cars.length === 0) {
-    return (
-      <div className="lg:w-3/4 flex justify-center items-center min-h-[300px]">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold text-white mb-2">No Cars Found</h3>
-          <p className="text-gray-300 mb-4">Sorry, no cars match your search criteria. Try adjusting your filters.</p>
-        </div>
-      </div>
-    );
-  }
-  
-  // For the demo, let's create some sample cars since the API is not connected
-  // const sampleCars: Car[] = [
+  const [isLoading, setIsLoading] = useState(false);
+  // Sample cars data (static)
   const sampleCars = [
     {
       id: 1,
@@ -186,7 +102,70 @@ export default function CarGrid({ filters }) {
     }
   ];
   
-  const displayedCars = sampleCars.slice(0, visibleCars);
+  // Filter cars based on the provided filters
+  const filteredCars = sampleCars.filter(car => {
+    // Type filter
+    if (filters.type && filters.type.length > 0 && !filters.type.includes(car.type)) {
+      return false;
+    }
+    
+    // Price range filter
+    if (filters.priceMin !== undefined && car.pricePerDay < filters.priceMin) {
+      return false;
+    }
+    if (filters.priceMax !== undefined && car.pricePerDay > filters.priceMax) {
+      return false;
+    }
+    
+    // Features filter
+    if (filters.features && filters.features.length > 0) {
+      if (!filters.features.some(feature => car.features.includes(feature))) {
+        return false;
+      }
+    }
+    
+    // Seats filter
+    if (filters.seats && filters.seats.length > 0 && !filters.seats.includes(car.seats)) {
+      return false;
+    }
+    
+    // Transmission filter
+    if (filters.transmission && filters.transmission.length > 0 && !filters.transmission.includes(car.transmission)) {
+      return false;
+    }
+    
+    // Availability filter
+    if (filters.available !== undefined && car.available !== filters.available) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  const loadMore = () => {
+    setVisibleCars(prev => prev + 6);
+  };
+  
+  if (isLoading) {
+    return (
+      <div className="lg:w-3/4 flex justify-center items-center min-h-[300px]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#FF6B35]" />
+      </div>
+    );
+  }
+  
+  if (filteredCars.length === 0) {
+    return (
+      <div className="lg:w-3/4 flex justify-center items-center min-h-[300px]">
+        <div className="text-center">
+          <h3 className="text-xl font-semibold text-white mb-2">No Cars Found</h3>
+          <p className="text-gray-300 mb-4">Sorry, no cars match your search criteria. Try adjusting your filters.</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const displayedCars = filteredCars.slice(0, visibleCars);
   
   return (
     <div className="lg:w-3/4">
@@ -196,7 +175,7 @@ export default function CarGrid({ filters }) {
         ))}
         
         {/* Load More Button */}
-        {sampleCars.length > visibleCars && (
+        {filteredCars.length > visibleCars && (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center mt-4">
             <Button 
               onClick={loadMore}
@@ -210,4 +189,10 @@ export default function CarGrid({ filters }) {
       </div>
     </div>
   );
+}
+export function handleViewDetailsHome(carId) {
+  // This function can be imported in CarCard component
+  // and called with the car.id as an argument
+  const router = useRouter();
+  router.push(`/cars/${carId}`);
 }

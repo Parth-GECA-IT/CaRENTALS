@@ -1,4 +1,5 @@
-import { useToast } from "@/hooks/use-toast"
+"use client"
+
 import {
   Toast,
   ToastClose,
@@ -9,11 +10,25 @@ import {
 } from "@/components/ui/toast"
 
 export function Toaster() {
-  const { toasts } = useToast()
+  // Static mock data instead of fetched data
+  const mockToasts = [
+    {
+      id: "toast-1",
+      title: "Success",
+      description: "Your action was completed successfully.",
+      variant: "default",
+    },
+    {
+      id: "toast-2",
+      title: "Error",
+      description: "Something went wrong. Please try again.",
+      variant: "destructive",
+    }
+  ]
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {mockToasts.map(function ({ id, title, description, ...props }) {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
@@ -22,7 +37,6 @@ export function Toaster() {
                 <ToastDescription>{description}</ToastDescription>
               )}
             </div>
-            {action}
             <ToastClose />
           </Toast>
         )
