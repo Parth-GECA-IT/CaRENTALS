@@ -40,7 +40,7 @@ export default function HeroSection({ onSearch }) {
           </div>
           
           <div className="w-full flex flex-col md:flex-row items-center justify-between mb-8">
-            <div className="md:w-1/2 text-left mb-8 md:mb-0 md:pr-8">
+            <div className="md:w-1/2 text-left mb-8 md:mb-0 md:pr-8 flex flex-col items-center">
               <div className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4">
                 Ride New Models Car,<br />
                 Starting at just ₹1499/-
@@ -63,7 +63,7 @@ export default function HeroSection({ onSearch }) {
               <img 
                 src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80" 
                 alt="Orange sports car" 
-                className="w-full h-auto rounded-lg" 
+                className="w-full h-[55vh] rounded-lg object-cover" 
               />
             </div>
           </div>
