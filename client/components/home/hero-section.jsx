@@ -68,11 +68,11 @@ export default function HeroSection({ onSearch }) {
             </div>
           </div>
           
-          <div className="flex justify-center space-x-3 mb-6">
+          {/* <div className="flex justify-center space-x-3 mb-6">
             <div className="h-2 w-8 bg-gray-500 rounded-full"></div>
             <div className="h-2 w-8 bg-[#FF6B35] rounded-full"></div>
             <div className="h-2 w-8 bg-gray-500 rounded-full"></div>
-          </div>
+          </div> */}
           
           <div className="mt-4">
             <Button 
