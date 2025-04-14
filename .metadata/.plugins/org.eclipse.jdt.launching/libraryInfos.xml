@@ -50,5 +50,17 @@
             <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.392.8-hotspot\lib\endorsed"/>
         </endorsedDirs>
     </libraryInfo>
+    <libraryInfo home="E:\sts-4.27.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.5.v20241023-1957" version="21.0.5">
+        <bootpath>
+            <entry path="null"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="null"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="null"/>
+        </endorsedDirs>
+    </libraryInfo>
     <libraryInfo home="C:\sts-4.27.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.5.v20241023-1957\jre" version="21.0.5"/>
+    <libraryInfo home="E:\sts-4.27.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.5.v20241023-1957\jre" version="21.0.5"/>
 </libraryInfos>
