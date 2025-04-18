@@ -13,7 +13,7 @@ import {
 import { Car, Menu, User, LogOut, Settings } from "lucide-react";
 
 export default function Header() {
-  const location = "/";
+  const location = '/'; // Simulating the current location
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Static user data instead of fetched data
@@ -46,7 +46,7 @@ export default function Header() {
         
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/">
-            <span className={`text-white hover:text-[#FF6B35] font-medium cursor-pointer ${location === '/' ? 'text-[#FF6B35]' : ''}`}>
+            <span className={`hover:text-[#FF6B35] font-medium cursor-pointer ${location === '/' ? 'text-[#FF6B35]' : 'text-white'}`}>
               Home
             </span>
           </Link>
@@ -72,13 +72,13 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="rounded-full h-10 w-10 p-0">
                   <Avatar>
-                    <AvatarFallback className="bg-[#FF6B35] text-white">
+                    <AvatarFallback className="bg-[#FF6B35] text-white cursor-pointer">
                       {user.fullName ? getInitials(user.fullName) : 'U'}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 bg-stone-950">
                 <div className="p-2 text-sm font-medium">
                   <div>{user.fullName}</div>
                   <div className="text-gray-500 text-xs font-normal">{user.email}</div>

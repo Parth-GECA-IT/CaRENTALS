@@ -239,7 +239,7 @@ export default function CarManager() {
           <DialogTrigger asChild>
             <Button
               onClick={handleCreateCar}
-              className="bg-[#10B981] hover:bg-[#10B981]/90"
+              className="bg-[#10B981] hover:bg-[#10B981]/90 cursor-pointer"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add New Car
@@ -464,9 +464,9 @@ export default function CarManager() {
       
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
-          <TabsTrigger value="all">All Cars ({cars.length})</TabsTrigger>
-          <TabsTrigger value="available">Available ({cars.filter(car => car.available).length})</TabsTrigger>
-          <TabsTrigger value="unavailable">Unavailable ({cars.filter(car => !car.available).length})</TabsTrigger>
+          <TabsTrigger value="all" className="cursor-pointer">All Cars ({cars.length})</TabsTrigger>
+          <TabsTrigger value="available" className="cursor-pointer">Available ({cars.filter(car => car.available).length})</TabsTrigger>
+          <TabsTrigger value="unavailable" className="cursor-pointer">Unavailable ({cars.filter(car => !car.available).length})</TabsTrigger>
         </TabsList>
         
         <TabsContent value={activeTab}>
@@ -512,10 +512,10 @@ export default function CarManager() {
                   
                   <div className="flex flex-wrap gap-1 mb-4">
                     {car.features.slice(0, 3).map((feature, index) => (
-                      <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded-full">{feature}</span>
+                      <span key={index} className="text-xs text-black bg-gray-100 px-2 py-1 rounded-full">{feature}</span>
                     ))}
                     {car.features.length > 3 && (
-                      <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">+{car.features.length - 3} more</span>
+                      <span className="text-xs text-black bg-gray-100 px-2 py-1 rounded-full">+{car.features.length - 3} more</span>
                     )}
                   </div>
                   
@@ -525,7 +525,7 @@ export default function CarManager() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-1"
+                      className="flex-1 cursor-pointer"
                       onClick={() => handleToggleAvailability(car.id, car.available)}
                     >
                       {car.available ? 'Set Unavailable' : 'Set Available'}
@@ -535,7 +535,7 @@ export default function CarManager() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1"
+                          className="flex-1 cursor-pointer"
                           onClick={() => handleEditCar(car)}
                         >
                           <PenSquare className="h-4 w-4 mr-2" />
@@ -750,7 +750,7 @@ export default function CarManager() {
                             
                             <Button 
                               type="submit" 
-                              className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90"
+                              className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90 cursor-pointer"
                             >
                               Update Car
                             </Button>
@@ -761,7 +761,7 @@ export default function CarManager() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-none text-red-600 border-red-600 hover:bg-red-50"
+                      className="flex-none text-red-600 border-red-600 hover:bg-red-50 cursor-pointer"
                       onClick={() => handleDelete(car.id)}
                     >
                       <Trash2 className="h-4 w-4" />

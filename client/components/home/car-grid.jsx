@@ -190,9 +190,3 @@ export default function CarGrid({ filters }) {
     </div>
   );
 }
-export function handleViewDetailsHome(carId) {
-  // This function can be imported in CarCard component
-  // and called with the car.id as an argument
-  const router = useRouter();
-  router.push(`/cars/${carId}`);
-}

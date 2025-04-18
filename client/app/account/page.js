@@ -1,7 +1,5 @@
+"use client";
 import { useState } from "react";
-import { useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/use-auth";
 import { Loader2, User, History, LogOut } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -10,23 +8,59 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("profile");
-  const [, navigate] = useLocation();
-  const { user, logoutMutation } = useAuth();
-
-  const { data: bookings, isLoading: isLoadingBookings } = useQuery({
-    queryKey: ["/api/bookings"],
-    enabled: !!user,
-  });
-
+  const router = useRouter();
+  
+  // Mock user data for frontend-only implementation
+  const user = {
+    fullName: "John Doe",
+    username: "johndoe",
+    email: "john.doe@example.com",
+    phoneNumber: "+1 234 567 8900",
+    isAdmin: true
+  };
+  
+  // Mock bookings data
+  const bookings = [
+    {
+      id: "booking1",
+      carName: "Tesla Model S",
+      startDate: "2023-10-15",
+      endDate: "2023-10-18",
+      totalAmount: 4500,
+      status: "completed"
+    },
+    {
+      id: "booking2",
+      carName: "BMW X5",
+      startDate: "2023-11-05",
+      endDate: "2023-11-10",
+      totalAmount: 7500,
+      status: "upcoming"
+    }
+  ];
+  
+  const isLoadingBookings = false;
+  
   const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        navigate("/");
-      }
-    });
+    // Mock logout functionality
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
+  };
+
+  const logoutMutation = {
+    isPending: false,
+    mutate: (_, callbacks) => {
+      setTimeout(() => {
+        if (callbacks && callbacks.onSuccess) {
+          callbacks.onSuccess();
+        }
+      }, 1000);
+    }
   };
 
   if (!user) {
@@ -66,7 +100,7 @@ export default function AccountPage() {
                 
                 <nav className="space-y-1">
                   <button
-                    className={`w-full flex items-center px-3 py-2 text-sm rounded-md ${
+                    className={`cursor-pointer w-full flex items-center px-3 py-2 text-sm rounded-md ${
                       activeTab === "profile" 
                       ? "bg-[#FF6B35]/10 text-[#FF6B35] font-medium" 
                       : "text-gray-300 hover:bg-[#333333]"
@@ -77,7 +111,7 @@ export default function AccountPage() {
                     Profile
                   </button>
                   <button
-                    className={`w-full flex items-center px-3 py-2 text-sm rounded-md ${
+                    className={`cursor-pointer w-full flex items-center px-3 py-2 text-sm rounded-md ${
                       activeTab === "rentals" 
                       ? "bg-[#FF6B35]/10 text-[#FF6B35] font-medium" 
                       : "text-gray-300 hover:bg-[#333333]"
@@ -88,7 +122,7 @@ export default function AccountPage() {
                     Rental History
                   </button>
                   <button
-                    className="w-full flex items-center px-3 py-2 text-sm text-red-400 hover:bg-[#331A1A] rounded-md"
+                    className="cursor-pointer w-full flex items-center px-3 py-2 text-sm text-red-400 hover:bg-[#331A1A] rounded-md"
                     onClick={handleLogout}
                     disabled={logoutMutation.isPending}
                   >
@@ -106,8 +140,8 @@ export default function AccountPage() {
             {user.isAdmin && (
               <div className="mt-4">
                 <Button 
-                  className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
-                  onClick={() => navigate("/admin")}
+                  className="cursor-pointer w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
+                  onClick={() => router.push("/admin")}
                 >
                   Go to Admin Panel
                 </Button>
@@ -118,9 +152,9 @@ export default function AccountPage() {
           {/* Main Content */}
           <div className="md:col-span-3">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="profile">Profile</TabsTrigger>
-                <TabsTrigger value="rentals">Rental History</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#262629] rounded-md">
+                <TabsTrigger value="profile" className="cursor-pointer">Profile</TabsTrigger>
+                <TabsTrigger value="rentals" className="cursor-pointer">Rental History</TabsTrigger>
               </TabsList>
               
               <TabsContent value="profile">
@@ -159,7 +193,7 @@ export default function AccountPage() {
                     </dl>
                     
                     <div className="mt-6">
-                      <Button className="bg-[#FF6B35] hover:bg-[#FF6B35]/90">
+                      <Button className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 cursor-pointer">
                         Edit Profile
                       </Button>
                     </div>

@@ -70,7 +70,7 @@ export default function CarCard({ car }) {
           </div>
           <Button 
             onClick={() => {handleViewDetailsHome(car.id)}}
-            className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+            className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 cursor-pointer text-white font-bold py-2 px-4 rounded-md transition duration-300"
           >
             {car.available ? 'Book Now' : 'View Details'}
           </Button>

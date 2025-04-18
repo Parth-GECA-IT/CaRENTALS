@@ -93,7 +93,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
                   onCheckedChange={(checked) => handleTypeChange(type, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
-                <Label htmlFor={`type-${type}`} className="text-white">{type}</Label>
+                <Label htmlFor={`type-${type}`} className="text-white cursor-pointer">{type}</Label>
               </div>
             ))}
           </div>
@@ -108,7 +108,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
               step={5}
               value={priceRange}
               onValueChange={handlePriceRangeChange}
-              className="my-5"
+              className="my-5 cursor-pointer"
             />
             <div className="flex justify-between text-sm text-gray-300 mt-2">
               <span>₹{priceRange[0]}</span>
@@ -128,7 +128,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
                   onCheckedChange={(checked) => handleFeaturesChange(feature, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
-                <Label htmlFor={`feature-${feature}`} className="text-white">{feature}</Label>
+                <Label htmlFor={`feature-${feature}`} className="text-white cursor-pointer">{feature}</Label>
               </div>
             ))}
           </div>
@@ -145,7 +145,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
                   onCheckedChange={(checked) => handleSeatsChange(seats, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
-                <Label htmlFor={`seats-${seats}`} className="text-white">{seats} passengers</Label>
+                <Label htmlFor={`seats-${seats}`} className="text-white cursor-pointer">{seats} passengers</Label>
               </div>
             ))}
           </div>
@@ -162,7 +162,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
                   onCheckedChange={(checked) => handleTransmissionChange(transmission, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
-                <Label htmlFor={`transmission-${transmission}`} className="text-white">{transmission}</Label>
+                <Label htmlFor={`transmission-${transmission}`} className="text-white cursor-pointer">{transmission}</Label>
               </div>
             ))}
           </div>
@@ -170,7 +170,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
 
         <Button 
           onClick={applyFilters} 
-          className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white font-bold py-2 rounded-md transition duration-300"
+          className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white font-bold py-2 rounded-md transition duration-300 cursor-pointer"
         >
           Apply Filters
         </Button>

@@ -8,8 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/car-logo.svg" alt="Car Rental Logo" className="h-10 w-10" />
-              <h2 className="text-xl font-bold text-white">CarRide<span className="text-[#FF6B35]">X</span></h2>
+              <img src="/logo.png" alt="Car Rental Logo" className="h-10 w-10" />
+              <h2 className="text-xl font-bold text-white">Ca<span className="text-[#FF6B35]">RENTALS</span></h2>
             </div>
             <p className="text-gray-400 mb-4">
               Premium car rental service for any occasion. Choose from our wide selection of vehicles.
@@ -89,7 +89,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-[#333333] mt-10 pt-6 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} CarRideX. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} CaRENTALS. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -47,7 +47,7 @@ export default function HeroSection({ onSearch }) {
               </div>
               
               <Button 
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/80 text-white font-bold uppercase py-3 px-8 rounded-md text-lg mt-4"
+                className="bg-[#FF6B35] hover:bg-[#FF6B35]/80 text-white font-bold uppercase py-3 px-8 rounded-md text-lg mt-4 cursor-pointer"
                 onClick={() => {
                   const carsSection = document.getElementById("cars");
                   if (carsSection) {
@@ -76,7 +76,7 @@ export default function HeroSection({ onSearch }) {
           
           <div className="mt-4">
             <Button 
-              className="bg-transparent hover:bg-[#FF6B35]/10 text-[#FF6B35] border border-[#FF6B35] font-bold py-2 px-8 rounded-full"
+              className="bg-transparent hover:bg-[#FF6B35]/10 text-[#FF6B35] border border-[#FF6B35] font-bold py-2 px-8 rounded-full cursor-pointer"
               onClick={() => {
                 const carsSection = document.getElementById("cars");
                 if (carsSection) {
