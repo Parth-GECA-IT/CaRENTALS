@@ -84,6 +84,13 @@ export default function Footer() {
                 <Mail className="h-5 w-5 mr-2 text-[#FF6B35]" />
                 <span className="text-gray-400">info@carridex.com</span>
               </li>
+              <li className="text-center">
+                <span className="text-gray-400">Developed by:</span>
+              </li>
+              <li className="text-center">
+                <span className="text-gray-400">Parth Armarkar & Pranay Bannagare</span>
+              </li>
+
             </ul>
           </div>
         </div>

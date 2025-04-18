@@ -181,7 +181,7 @@ export default function AdminPage() {
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#1a1a1a] border-b border-l border-[#333333]">
             <TabsTrigger value="cars">Cars Management</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
           </TabsList>
