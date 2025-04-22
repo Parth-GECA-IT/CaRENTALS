@@ -97,7 +97,7 @@ export default function AuthPage() {
             <div className="flex flex-col md:flex-row">
               {/* Left side - Form */}
               <div className="md:w-1/2 p-8">
-                <h1 className="text-2xl font-bold text-white mb-6">Welcome to CarRide<span className="text-[#FF6B35]">X</span></h1>
+                <h1 className="text-2xl font-bold text-white mb-6">Welcome to Ca<span className="text-[#FF6B35]">RENTALS</span></h1>
                 
                 <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="text-gray-200">
                   <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#222222]">
@@ -268,7 +268,7 @@ export default function AuthPage() {
                 <div className="max-w-md mx-auto py-8">
                   <h2 className="text-3xl font-bold mb-4">Your Journey Starts Here</h2>
                   <p className="mb-8 text-gray-400">
-                    Join CarRideX today and get access to our premium fleet of vehicles. Whether you need a car for business, vacation, or just a weekend getaway, we've got the perfect vehicle for you.
+                    Join CaRENTALS today and get access to our premium fleet of vehicles. Whether you need a car for business, vacation, or just a weekend getaway, we've got the perfect vehicle for you.
                   </p>
                   
                   <div className="space-y-4">

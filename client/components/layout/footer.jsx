@@ -82,7 +82,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 mr-2 text-[#FF6B35]" />
-                <span className="text-gray-400">info@carridex.com</span>
+                <span className="text-gray-400">info@carentals.com</span>
               </li>
               <li className="text-center">
                 <span className="text-gray-400">Developed by:</span>
