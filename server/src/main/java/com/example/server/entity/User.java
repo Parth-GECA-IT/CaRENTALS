@@ -11,21 +11,20 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class User {
 	@Id
-	@Column(name = "email")
-	private String email;
-	
+	@Column(name = "username")
+	private String username;
+
 	@Column(name = "full_name")
 	private String name;
 	
-	@Column(name = "password")
-	private String password;
+	@Column(name = "email")
+	private String email;	
 	
-	@Column(name = "username")
-	private String username;
+	@Column(name = "password")
+	private String password;	
 	
 	@Column(name = "phNumber")
 	private String phone;
-	
 
 	public String getEmail() {
 		return email;
