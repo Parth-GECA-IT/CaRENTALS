@@ -61,47 +61,47 @@ export default function AuthPage() {
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
-    // const res = await fetch('http://localhost:8080/api/auth/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(form)
-    // });
+    const res = await fetch('http://localhost:8080/loginUser', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
-    // const text = await res.text();
-    // alert(res.ok ? 'Login Successful!' : `Login failed: ${text}`);
-    // router.push("/");
-    // setIsPending(false);
+    const text = await res.text();
+    alert(res.ok ? 'Login Successful!' : `Login failed: ${text}`);
+    router.push("/");
+    setIsPending(false);
 
     // Mock successful login
-    setTimeout(() => {
-      console.log("Login data:", data);
-      setIsPending(false);
-      // Mock successful login
-      setUser({ username: data.username });
-      navigate("/");
-    }, 1500);
+    // setTimeout(() => {
+    //   console.log("Login data:", data);
+    //   setIsPending(false);
+    //   // Mock successful login
+    //   setUser({ username: data.username });
+    //   navigate("/");
+    // }, 1500);
   };
 
   const onRegisterSubmit = async (data) => {
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
-    // const res = await fetch('http://localhost:8080/api/auth/cars/addUser', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(form)
-    // });
-    // router.push("/");
-    // console.log("Register data:", data);
-    // setIsPending(false);
+    const res = await fetch('http://localhost:8080/registerUser', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    router.push("/");
+    console.log("Register data:", data);
+    setIsPending(false);
 
-    setTimeout(() => {
-      console.log("Register data:", data);
-      setIsPending(false);
-      // Mock successful registration
-      setUser({ username: data.username });
-      navigate("/");
-    }, 1500);
+    // setTimeout(() => {
+    //   console.log("Register data:", data);
+    //   setIsPending(false);
+    //   // Mock successful registration
+    //   setUser({ username: data.username });
+    //   navigate("/");
+    // }, 1500);
   };
 
   if (isLoading) {
