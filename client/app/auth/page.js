@@ -16,11 +16,13 @@ import { Loader2 } from "lucide-react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
 
   // Mock user state
   const [user, setUser] = useState(null);
@@ -55,9 +57,22 @@ export default function AuthPage() {
     },
   });
 
-  const onLoginSubmit = (data) => {
+  const onLoginSubmit = async (data) => {
     setIsPending(true);
     // Simulate API call
+    // e.preventDefault();
+    // const res = await fetch('http://localhost:8080/api/auth/login', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(form)
+    // });
+
+    // const text = await res.text();
+    // alert(res.ok ? 'Login Successful!' : `Login failed: ${text}`);
+    // router.push("/");
+    // setIsPending(false);
+
+    // Mock successful login
     setTimeout(() => {
       console.log("Login data:", data);
       setIsPending(false);
@@ -67,9 +82,19 @@ export default function AuthPage() {
     }, 1500);
   };
 
-  const onRegisterSubmit = (data) => {
+  const onRegisterSubmit = async (data) => {
     setIsPending(true);
     // Simulate API call
+    // e.preventDefault();
+    // const res = await fetch('http://localhost:8080/api/auth/cars/addUser', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(form)
+    // });
+    // router.push("/");
+    // console.log("Register data:", data);
+    // setIsPending(false);
+
     setTimeout(() => {
       console.log("Register data:", data);
       setIsPending(false);
