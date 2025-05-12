@@ -91,7 +91,6 @@ export default function AuthPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    router.push("/auth");
     window.location.reload();
     console.log("Register data:", data);
     setIsPending(false);
@@ -181,7 +180,7 @@ export default function AuthPage() {
                       <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
                         <FormField
                           control={registerForm.control}
-                          name={`name`}
+                          name={`fullName`}
                           render={({ field }) => (
                             <FormItem className="text-white">
                               <FormLabel>Full Name</FormLabel>
