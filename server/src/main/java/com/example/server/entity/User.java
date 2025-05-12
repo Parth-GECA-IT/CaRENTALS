@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -15,7 +14,7 @@ public class User {
 	private String username;
 
 	@Column(name = "full_name")
-	private String name;
+	private String fullName;
 	
 	@Column(name = "email")
 	private String email;	
@@ -24,7 +23,7 @@ public class User {
 	private String password;	
 	
 	@Column(name = "phNumber")
-	private String phone;
+	private String phoneNumber;
 
 	public String getEmail() {
 		return email;
@@ -35,11 +34,11 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return fullName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.fullName = name;
 	}
 
 	public String getPassword() {
@@ -59,20 +58,20 @@ public class User {
 	}
 
 	public String getPhone() {
-		return phone;
+		return phoneNumber;
 	}
 
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phoneNumber = phone;
 	}
 
 	public User(String email, String name, String password, String username, String phone) {
 		super();
 		this.email = email;
-		this.name = name;
+		this.fullName = name;
 		this.password = password;
 		this.username = username;
-		this.phone = phone;
+		this.phoneNumber = phone;
 
 	}
 

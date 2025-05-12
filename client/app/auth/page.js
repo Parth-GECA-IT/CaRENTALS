@@ -61,7 +61,7 @@ export default function AuthPage() {
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
-    const res = await fetch('http://localhost:8080/loginUser', {
+    const res = await fetch('http://localhost:8090/loginUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -86,12 +86,13 @@ export default function AuthPage() {
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
-    const res = await fetch('http://localhost:8080/registerUser', {
+    const res = await fetch('http://localhost:8090/registerUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    router.push("/");
+    router.push("/auth");
+    window.location.reload();
     console.log("Register data:", data);
     setIsPending(false);
 
@@ -180,7 +181,7 @@ export default function AuthPage() {
                       <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
                         <FormField
                           control={registerForm.control}
-                          name="fullName"
+                          name={`name`}
                           render={({ field }) => (
                             <FormItem className="text-white">
                               <FormLabel>Full Name</FormLabel>
@@ -223,7 +224,7 @@ export default function AuthPage() {
                           
                           <FormField
                             control={registerForm.control}
-                            name="phoneNumber"
+                            name="phone"
                             render={({ field }) => (
                               <FormItem className="text-white">
                                 <FormLabel>Phone Number</FormLabel>

@@ -1,17 +1,17 @@
 package com.example.server.requests;
 
 public class RegisterRequest {
-	private String name;
+	private String fullName;
 	private String email;
 	private String password;
 	private String username;
-	private String phone;
+	private String phoneNumber;
 	
 	public String getName() {
-		return name;
+		return fullName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.fullName = name;
 	}
 	public String getEmail() {
 		return email;
@@ -32,19 +32,19 @@ public class RegisterRequest {
 		this.username = username;
 	}
 	public String getPhone() {
-		return phone;
+		return phoneNumber;
 	}
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phoneNumber = phone;
 	}
 	
 	public RegisterRequest(String name, String email, String password, String username, String phone) {
 		super();
-		this.name = name;
+		this.fullName = name;
 		this.email = email;
 		this.password = password;
 		this.username = username;
-		this.phone = phone;
+		this.phoneNumber = phone;
 	}
 	public RegisterRequest() {
 		super();

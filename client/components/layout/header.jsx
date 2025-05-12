@@ -11,9 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Car, Menu, User, LogOut, Settings } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
-  const location = '/'; // Simulating the current location
+  const location = usePathname
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Static user data instead of fetched data
