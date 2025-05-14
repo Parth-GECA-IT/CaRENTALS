@@ -24,39 +24,59 @@ export default function Home() {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
-  const savedUser = JSON.parse(localStorage.getItem("loginSuccess"));
-  const succ = (fullName) => {
-    setTimeout(() => {
-      toast.success(() => (
-        <CustomToast
-          title="Login Successful"
-          description={`Welcome back ${fullName}`}
-          variant="success"
-        />
-      ), {
-        style: {
-          backgroundColor: "#08bd0e",
-          boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
-          padding: "16px",
-        },
-        icon: false,
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "colored",
-        transition: Bounce,
-      });
-    }, 100); // small delay (100–200ms)
-  };
-
-  if (savedUser) {
-    console.log("fullname", savedUser);
-    succ(savedUser.name);
-    localStorage.removeItem("loginSuccess");
-  }
+  useEffect(() => {
+    const loginUser = JSON.parse(localStorage.getItem("loginSuccess"));
+    const regUser = JSON.parse(localStorage.getItem("regSuccess"));
+    if (regUser) {
+      setTimeout(() => {
+        toast.success(() => (
+          <CustomToast
+            title="Registration Successful"
+            description={`Welcome ${regUser}🎉🎊`}
+            variant="success"
+          />
+        ), {
+          icon: false,
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "dark",
+          transition: Bounce,
+        });
+      }, 100);
+      localStorage.removeItem("regSuccess");
+    }
+    if (loginUser) {
+      setTimeout(() => {
+        toast.success(() => (
+          <CustomToast
+            title="Login Successful"
+            description={`Welcome back ${loginUser}`}
+            variant="success"
+          />
+        ), {
+          style: {
+            backgroundColor: "#08bd0e",
+            boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
+            padding: "16px",
+          },
+          icon: false,
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }, 100);
+      localStorage.removeItem("loginSuccess");
+    }
+  }, []);
 
   return (
     <>

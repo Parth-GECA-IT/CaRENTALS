@@ -1,17 +1,20 @@
 package com.example.server.requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RegisterRequest {
-	private String fullName;
+	@JsonProperty("fullName")
+	private String name;
 	private String email;
 	private String password;
 	private String username;
 	private String phoneNumber;
 	
 	public String getName() {
-		return fullName;
+		return name;
 	}
 	public void setName(String name) {
-		this.fullName = name;
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;
@@ -40,7 +43,7 @@ public class RegisterRequest {
 	
 	public RegisterRequest(String name, String email, String password, String username, String phone) {
 		super();
-		this.fullName = name;
+		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.username = username;

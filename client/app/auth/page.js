@@ -106,37 +106,47 @@ export default function AuthPage() {
     } finally {
       setIsPending(false);
     }
-
-    // Mock successful login
-    // setTimeout(() => {
-    //   console.log("Login data:", data);
-    //   setIsPending(false);
-    //   // Mock successful login
-    //   setUser({ username: data.username });
-    //   navigate("/");
-    // }, 1500);
   };
 
   const onRegisterSubmit = async (data) => {
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
+    try {
     const res = await fetch('http://localhost:8090/registerUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    window.location.reload();
-    console.log("Register data:", data);
-    setIsPending(false);
+    const user = await res.json();
 
-    // setTimeout(() => {
-    //   console.log("Register data:", data);
-    //   setIsPending(false);
-    //   // Mock successful registration
-    //   setUser({ username: data.username });
-    //   navigate("/");
-    // }, 1500);
+      if (!res.ok) {
+        // The backend sends: { error: "message" }
+        throw new Error(`(${res.status}) ${user.error}` || "Registration failed");
+      }
+      localStorage.setItem("regSuccess", JSON.stringify(user.name));
+      console.log(user);
+      router.push("/");
+    }
+    catch (error) {
+      console.log("Registration error:", error);
+      toast.error(<CustomToast
+        title="Failed to Register"
+        description={error.message || "Something went wrong!!!"}
+        />, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   if (isLoading) {
