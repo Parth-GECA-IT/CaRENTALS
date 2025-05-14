@@ -10,6 +10,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
@@ -17,16 +19,19 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { CustomToast } from "@/components/ui/customToast";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
+  // const { toast } = useToast();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Mock user state
   const [user, setUser] = useState(null);
-  
+
   // Mock navigation
   const navigate = (path) => {
     console.log(`Navigating to: ${path}`);
@@ -60,17 +65,47 @@ export default function AuthPage() {
   const onLoginSubmit = async (data) => {
     setIsPending(true);
     // Simulate API call
-    // e.preventDefault();
-    const res = await fetch('http://localhost:8090/loginUser', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+    try {
+      const res = await fetch('http://localhost:8090/loginUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const user = await res.json();
 
-    const text = await res.text();
-    alert(res.ok ? 'Login Successful!' : `Login failed: ${text}`);
-    router.push("/");
-    setIsPending(false);
+      if (!res.ok) {
+        // The backend sends: { error: "message" }
+        throw new Error(`(${res.status}) ${user.error}` || "Login failed");
+      }
+
+      localStorage.setItem("loginSuccess", JSON.stringify(user.name));
+      router.push("/");
+    }
+    catch (error) {
+      console.log("Login error:", error);
+      toast.error(<CustomToast
+        title="Login failed"
+        description={error.message || "Invalid username or password"}
+        variant="error" />, {
+        style: {
+          backgroundColor: "#171717",
+          boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
+          padding: "16px",
+        },
+        icon: false,
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    } finally {
+      setIsPending(false);
+    }
 
     // Mock successful login
     // setTimeout(() => {
@@ -114,8 +149,27 @@ export default function AuthPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#111111]">
+      <ToastContainer stacked
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+        transition={Bounce}
+      // toastStyle={{
+      //   backgroundColor: "#eeeeee",
+      //   color: "#fff",
+      //   borderRadius: "8px",
+      // }}
+      />
+      {/* Same as */}
       <Header />
-      
+
       <div className="flex-grow flex items-center justify-center py-12">
         <div className="container max-w-screen-xl mx-auto px-4">
           <div className="bg-[#1A1A1A] rounded-lg shadow-lg overflow-hidden border border-[#333333]">
@@ -123,13 +177,13 @@ export default function AuthPage() {
               {/* Left side - Form */}
               <div className="md:w-1/2 p-8">
                 <h1 className="text-2xl font-bold text-white mb-6">Welcome to Ca<span className="text-[#FF6B35]">RENTALS</span></h1>
-                
+
                 <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="text-gray-200">
                   <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#222222]">
                     <TabsTrigger value="login" className="data-[state=active]:bg-[#FF6B35] data-[state=active]:text-white">Login</TabsTrigger>
                     <TabsTrigger value="register" className="data-[state=active]:bg-[#FF6B35] data-[state=active]:text-white">Register</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="login">
                     <Form {...loginForm}>
                       <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
@@ -146,7 +200,7 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
+
                         <FormField
                           control={loginForm.control}
                           name="password"
@@ -160,9 +214,9 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
-                        <Button 
-                          type="submit" 
+
+                        <Button
+                          type="submit"
                           className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
                           disabled={isPending}
                         >
@@ -174,7 +228,7 @@ export default function AuthPage() {
                       </form>
                     </Form>
                   </TabsContent>
-                  
+
                   <TabsContent value="register">
                     <Form {...registerForm}>
                       <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
@@ -191,7 +245,7 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
+
                         <FormField
                           control={registerForm.control}
                           name="email"
@@ -205,7 +259,7 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <FormField
                             control={registerForm.control}
@@ -220,7 +274,7 @@ export default function AuthPage() {
                               </FormItem>
                             )}
                           />
-                          
+
                           <FormField
                             control={registerForm.control}
                             name="phone"
@@ -228,10 +282,10 @@ export default function AuthPage() {
                               <FormItem className="text-white">
                                 <FormLabel>Phone Number</FormLabel>
                                 <FormControl>
-                                  <Input 
-                                    placeholder="Enter your phone number" 
-                                    className="bg-[#222222] border-[#444444]" 
-                                    value={field.value || ''} 
+                                  <Input
+                                    placeholder="Enter your phone number"
+                                    className="bg-[#222222] border-[#444444]"
+                                    value={field.value || ''}
                                     onChange={field.onChange}
                                     onBlur={field.onBlur}
                                     name={field.name}
@@ -243,7 +297,7 @@ export default function AuthPage() {
                             )}
                           />
                         </div>
-                        
+
                         <FormField
                           control={registerForm.control}
                           name="password"
@@ -257,7 +311,7 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
+
                         <FormField
                           control={registerForm.control}
                           name="confirmPassword"
@@ -271,9 +325,9 @@ export default function AuthPage() {
                             </FormItem>
                           )}
                         />
-                        
-                        <Button 
-                          type="submit" 
+
+                        <Button
+                          type="submit"
                           className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90"
                           disabled={isPending}
                         >
@@ -287,7 +341,7 @@ export default function AuthPage() {
                   </TabsContent>
                 </Tabs>
               </div>
-              
+
               {/* Right side - Hero */}
               <div className="md:w-1/2 bg-[#111111] p-8 text-white flex flex-col justify-center border-l border-[#333333]">
                 <div className="max-w-md mx-auto py-8">
@@ -295,7 +349,7 @@ export default function AuthPage() {
                   <p className="mb-8 text-gray-400">
                     Join CaRENTALS today and get access to our premium fleet of vehicles. Whether you need a car for business, vacation, or just a weekend getaway, we've got the perfect vehicle for you.
                   </p>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
                       <div className="mt-1 bg-[#FF6B35] p-1 rounded-full">
@@ -308,7 +362,7 @@ export default function AuthPage() {
                         <p className="text-sm text-gray-400">Choose from economy, luxury, SUVs, and more</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-start space-x-3">
                       <div className="mt-1 bg-[#FF6B35] p-1 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -320,7 +374,7 @@ export default function AuthPage() {
                         <p className="text-sm text-gray-400">Daily, weekly, or monthly rental options available</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-start space-x-3">
                       <div className="mt-1 bg-[#FF6B35] p-1 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -339,7 +393,7 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );

@@ -1,8 +1,13 @@
 package com.example.server.controller;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.example.server.entity.User;
@@ -28,10 +33,22 @@ public class UserController {
 	
 	@PostMapping("/loginUser")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest){
-		String responseMessage = userService.loginUser(loginRequest);
-		return ResponseEntity.ok(responseMessage);
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+	    try {
+	        User user = userService.loginUser(loginRequest);
+	        return ResponseEntity.ok(user); // 200 OK
+	    } catch (UsernameNotFoundException e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body(Map.of("error", e.getMessage()));
+	    } catch (BadCredentialsException e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                .body(Map.of("error", e.getMessage()));
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body(Map.of("error", "An unexpected error occurred"));
+	    }
 	}
+
 	
 	@GetMapping("/logprocess")
 	public String login(@RequestParam("uemail")String email,@RequestParam("upass")String pass, HttpSession session, ModelMap model) {

@@ -6,9 +6,9 @@ import { handleViewDetailsHome } from "./car-grid";
 
 export default function CarCard({ car }) {
   
-  // const handleViewDetails = () => {
-  //   handleViewDetailsHome();
-  // };
+  const handleViewDetails = () => {
+    navigate(`/cars/${car.id}`);
+  };
 
   return (
     <div className="bg-[#222222] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-[#333333]">
@@ -69,7 +69,8 @@ export default function CarCard({ car }) {
             <span className="text-gray-400 text-sm">/ day</span>
           </div>
           <Button 
-            onClick={() => {handleViewDetailsHome(car.id)}}
+            onClick={() => {handleViewDetails}}
+            // onClick={() => {handleViewDetailsHome(car.id)}}
             className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 cursor-pointer text-white font-bold py-2 px-4 rounded-md transition duration-300"
           >
             {car.available ? 'Book Now' : 'View Details'}

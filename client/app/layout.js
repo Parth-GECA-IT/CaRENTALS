@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { ToastProviderWrapper } from "@/hooks/use-toast";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,12 +21,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <link rel="icon" href="/logo2.png" type="image/png" />
+        <link rel="icon" href="/logo2.png" type="image/png" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ToastProviderWrapper>
+          {children}
+        </ToastProviderWrapper>
       </body>
     </html>
   );
