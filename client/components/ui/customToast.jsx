@@ -9,9 +9,9 @@ const variantStyles = {
         desc: "text-gray-200",
     },
     error: {
-        icon: <XCircle className="text-red-500 w-6 h-6" />,
-        titleClass: "text-gray-200",
-        desc: "text-red-500",
+        icon: <XCircle className="text-white w-6 h-6" />,
+        titleClass: "text-white",
+        desc: "text-gray-200",
     },
     warning: {
         icon: <AlertTriangle className="text-yellow-500 w-6 h-6" />,

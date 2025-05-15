@@ -20,31 +20,34 @@ import Footer from "@/components/layout/footer";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { CustomToast } from "@/components/ui/customToast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const loginFormSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  password: z.string().min(3, "Password must be at least 3 characters"),
+});
+
+const registerFormSchema = z.object({
+  fullName: z.string().min(3, "Full name must be at least 3 characters"),
+  email: z.string(),
+  username: z.string(),
+  phone: z.string(),
+  password: z.string().min(3, "Password must be at least 3 characters"),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
-  // const { toast } = useToast();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Mock user state
-  const [user, setUser] = useState(null);
-
-  // Mock navigation
-  const navigate = (path) => {
-    console.log(`Navigating to: ${path}`);
-  };
-
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
 
   const loginForm = useForm({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -52,6 +55,7 @@ export default function AuthPage() {
   });
 
   const registerForm = useForm({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -109,16 +113,17 @@ export default function AuthPage() {
   };
 
   const onRegisterSubmit = async (data) => {
+    console.log("Registering user:", data);
     setIsPending(true);
     // Simulate API call
     // e.preventDefault();
     try {
-    const res = await fetch('http://localhost:8090/registerUser', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const user = await res.json();
+      const res = await fetch('http://localhost:8090/registerUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const user = await res.json();
 
       if (!res.ok) {
         // The backend sends: { error: "message" }
@@ -133,7 +138,9 @@ export default function AuthPage() {
       toast.error(<CustomToast
         title="Failed to Register"
         description={error.message || "Something went wrong!!!"}
-        />, {
+        variant="error"
+      />, {
+        icon: false,
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -141,7 +148,7 @@ export default function AuthPage() {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "colored",
         transition: Bounce,
       });
     } finally {
@@ -177,7 +184,6 @@ export default function AuthPage() {
       //   borderRadius: "8px",
       // }}
       />
-      {/* Same as */}
       <Header />
 
       <div className="flex-grow flex items-center justify-center py-12">

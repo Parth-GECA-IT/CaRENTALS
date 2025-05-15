@@ -20,9 +20,16 @@ public class UserController {
 	private UserService userService;
 	@PostMapping("/registerUser")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<User> register(@RequestBody RegisterRequest request){
-		User savedUser = userService.register(request);
-		return ResponseEntity.ok(savedUser);
+	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+	    try {
+	        User savedUser = userService.register(request);
+	        savedUser.setPassword(null);
+	        return ResponseEntity.ok(savedUser);
+	    } catch (IllegalArgumentException e) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Registration failed"));
+	    }
 	}
 	
 	@PostMapping("/loginUser")

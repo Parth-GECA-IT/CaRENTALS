@@ -19,14 +19,20 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	public User register(RegisterRequest req) {
-		User user = new User();
-		
-		user.setName(req.getName());
-		user.setEmail(req.getEmail());
-		user.setPassword(req.getPassword());
-		user.setUsername(req.getUsername());
-		user.setPhone(req.getPhone());
-		return userRepository.save(user);
+	    // Check if user already exists
+	    if (userRepository.existsById(req.getUsername())) {
+	        throw new IllegalArgumentException("Username already exists");
+	    }
+
+	    // Create and save user
+	    User user = new User();
+	    user.setName(req.getName());
+	    user.setEmail(req.getEmail());
+	    user.setPassword(req.getPassword());
+	    user.setUsername(req.getUsername());
+	    user.setPhone(req.getPhone());
+
+	    return userRepository.save(user);
 	}
 	
 	public User loginUser(LoginRequest loginRequest) throws UsernameNotFoundException, BadCredentialsException {
