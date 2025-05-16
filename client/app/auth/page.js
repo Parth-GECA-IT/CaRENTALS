@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import { CustomToast } from "@/components/ui/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+import { useAuth } from "@/hooks/use-auth";
 const loginFormSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(3, "Password must be at least 3 characters"),
@@ -44,8 +44,7 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const [localIP, setLocalIP] = useState("192.168.221.218");
-  const router = useRouter();
+  const { user, register, login, logout } = useAuth();
 
   const loginForm = useForm({
     resolver: zodResolver(loginFormSchema),
@@ -71,88 +70,23 @@ export default function AuthPage() {
     setIsPending(true);
     // API call
     try {
-      const res = await fetch(`http://${localIP}:8090/loginUser`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const user = await res.json();
-
-      if (!res.ok) {
-        // The backend sends: { error: "message" }
-        throw new Error(`(${res.status}) ${user.error}` || "Login failed");
-      }
-
-      localStorage.setItem("loginSuccess", JSON.stringify(user.name));
-      router.push("/");
+      login(data)
     }
     catch (error) {
       console.log("Login error:", error);
-      const isMobile = window.innerWidth < 768;
-      toast.error(<CustomToast
-        title="Login failed"
-        description={error.message || "Invalid username or password"}
-        variant="error" />, {
-        style: {
-          backgroundColor: "#171717",
-          boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
-          padding: "16px",
-        },
-        icon: false,
-        position: isMobile ? "top-center" : "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
     } finally {
       setIsPending(false);
     }
   };
 
   const onRegisterSubmit = async (data) => {
-    console.log("Registering user:", data);
     setIsPending(true);
     // API call
     try {
-      const res = await fetch(`http://${localIP}:8090/registerUser`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const user = await res.json();
-
-      if (!res.ok) {
-        // The backend sends: { error: "message" }
-        throw new Error(`(${res.status}) ${user.error}` || "Registration failed");
-      }
-      localStorage.setItem("regSuccess", JSON.stringify(user.name));
-      console.log(user);
-      router.push("/");
+      register(data);
     }
     catch (error) {
       console.log("Registration error:", error);
-      const isMobile = window.innerWidth < 768;
-      toast.error(<CustomToast
-        title="Failed to Register"
-        description={error.message || "Something went wrong!!!"}
-        variant="error"
-      />, {
-        icon: false,
-        position: isMobile ? "top-center" : "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
     } finally {
       setIsPending(false);
     }
