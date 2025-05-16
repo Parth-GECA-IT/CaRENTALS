@@ -37,7 +37,6 @@ export default function Home() {
           />
         ), {
           icon: false,
-          position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -64,7 +63,6 @@ export default function Home() {
             padding: "16px",
           },
           icon: false,
-          position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -78,11 +76,28 @@ export default function Home() {
     }
   }, []);
 
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+    
+    // Check on initial load
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   return (
     <>
       <div className="flex flex-col min-h-screen bg-[#1A1A1A]">
         <ToastContainer stacked
-          position="bottom-right"
+          position={isMobileView ? "top-center" : "bottom-right"}
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -98,6 +113,7 @@ export default function Home() {
         //   color: "#fff",
         //   borderRadius: "8px",
         // }}
+        className={"custom-toast-container"}
         />
         <Header />
         <HeroSection onSearch={handleFilterChange} />

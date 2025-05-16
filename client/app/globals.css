@@ -19,6 +19,17 @@
   }
 }
 
+@media (max-width: 480px) {
+  .custom-toast-container .Toastify__toast {
+    top: 1rem !important;
+    left: 23vw !important;
+    width: 60vw !important;
+    max-width: 90vw;
+    padding: 0 auto;
+    margin: 0 auto;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

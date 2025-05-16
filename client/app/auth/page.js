@@ -44,6 +44,7 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [localIP, setLocalIP] = useState("192.168.221.218");
   const router = useRouter();
 
   const loginForm = useForm({
@@ -68,9 +69,9 @@ export default function AuthPage() {
 
   const onLoginSubmit = async (data) => {
     setIsPending(true);
-    // Simulate API call
+    // API call
     try {
-      const res = await fetch('http://localhost:8090/loginUser', {
+      const res = await fetch(`http://${localIP}:8090/loginUser`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -87,6 +88,7 @@ export default function AuthPage() {
     }
     catch (error) {
       console.log("Login error:", error);
+      const isMobile = window.innerWidth < 768;
       toast.error(<CustomToast
         title="Login failed"
         description={error.message || "Invalid username or password"}
@@ -97,7 +99,7 @@ export default function AuthPage() {
           padding: "16px",
         },
         icon: false,
-        position: "bottom-right",
+        position: isMobile ? "top-center" : "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -115,10 +117,9 @@ export default function AuthPage() {
   const onRegisterSubmit = async (data) => {
     console.log("Registering user:", data);
     setIsPending(true);
-    // Simulate API call
-    // e.preventDefault();
+    // API call
     try {
-      const res = await fetch('http://localhost:8090/registerUser', {
+      const res = await fetch(`http://${localIP}:8090/registerUser`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -135,13 +136,14 @@ export default function AuthPage() {
     }
     catch (error) {
       console.log("Registration error:", error);
+      const isMobile = window.innerWidth < 768;
       toast.error(<CustomToast
         title="Failed to Register"
         description={error.message || "Something went wrong!!!"}
         variant="error"
       />, {
         icon: false,
-        position: "bottom-right",
+        position: isMobile ? "top-center" : "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -164,10 +166,28 @@ export default function AuthPage() {
     );
   }
 
+  // Detect if we're on mobile for the toast container position
+  const [isMobileView, setIsMobileView] = useState(false);
+  
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+    
+    // Check on initial load
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#111111]">
       <ToastContainer stacked
-        position="bottom-right"
+        position={isMobileView ? "top-center" : "bottom-right"}
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -183,6 +203,7 @@ export default function AuthPage() {
       //   color: "#fff",
       //   borderRadius: "8px",
       // }}
+      className={"custom-toast-container"}
       />
       <Header />
 
