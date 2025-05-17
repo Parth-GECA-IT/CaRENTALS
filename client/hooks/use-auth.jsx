@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const localIP = "localhost";
+  const localIP = "192.168.221.218";
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
       });
       const data = await res.json();
       // Check if the user is an admin if its username starts with 'admin...'
-      if (data.username.startsWith("admin")) {
+      if (data.username?.startsWith("admin")) {
         data.isAdmin = true;
       }
 
