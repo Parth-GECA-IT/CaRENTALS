@@ -33,12 +33,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getName() {
+	public String getFullName() {
 		return fullName;
 	}
 
-	public void setName(String name) {
-		this.fullName = name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getPassword() {
@@ -65,10 +65,10 @@ public class User {
 		this.phoneNumber = phone;
 	}
 
-	public User(String email, String name, String password, String username, String phone) {
+	public User(String email, String fullName, String password, String username, String phone) {
 		super();
 		this.email = email;
-		this.fullName = name;
+		this.fullName = fullName;
 		this.password = password;
 		this.username = username;
 		this.phoneNumber = phone;

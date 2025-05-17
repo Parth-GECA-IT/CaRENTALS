@@ -9,20 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("profile");
   const router = useRouter();
-  
-  // Mock user data for frontend-only implementation
-  const user = {
-    fullName: "John Doe",
-    username: "johndoe",
-    email: "john.doe@example.com",
-    phoneNumber: "+1 234 567 8900",
-    isAdmin: true
-  };
-  
+  const { user } = useAuth();
   // Mock bookings data
   const bookings = [
     {
@@ -181,7 +173,7 @@ export default function AccountPage() {
                       
                       <div className="grid grid-cols-3 gap-4 py-3 border-b border-[#333333]">
                         <dt className="text-sm font-medium text-gray-400">Phone Number</dt>
-                        <dd className="text-sm text-gray-300 col-span-2">{user.phoneNumber || "Not provided"}</dd>
+                        <dd className="text-sm text-gray-300 col-span-2">{user.phone || "Not provided"}</dd>
                       </div>
                       
                       <div className="grid grid-cols-3 gap-4 py-3">

@@ -9,7 +9,7 @@ public class RegisterRequest {
 	private String password;
 	private String username;
 	private String phoneNumber;
-	
+
 	public String getName() {
 		return name;
 	}

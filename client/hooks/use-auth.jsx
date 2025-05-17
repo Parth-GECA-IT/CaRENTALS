@@ -44,6 +44,10 @@ export function AuthProvider({ children }) {
         body: JSON.stringify(credentials),
       });
       const data = await res.json();
+      // Check if the user is an admin if its username starts with 'admin...'
+      if (data.username.startsWith("admin")) {
+        data.isAdmin = true;
+      }
 
       if (!res.ok) {
         // The backend sends: { error: "message" }
@@ -51,7 +55,7 @@ export function AuthProvider({ children }) {
       }
 
       setUser(data);
-      localStorage.setItem("loginSuccess", JSON.stringify(data.name));
+      localStorage.setItem("loginSuccess", JSON.stringify(data.fullName));
       router.push("/");
     }
     catch (error) {
@@ -94,7 +98,7 @@ export function AuthProvider({ children }) {
         // The backend sends: { error: "message" }
         throw new Error(`(${res.status}) ${data.error}` || "Registration failed");
       }
-      localStorage.setItem("regSuccess", JSON.stringify(data.name));
+      localStorage.setItem("regSuccess", JSON.stringify(data.fullName));
       router.push("/");
     } catch (error) {
       console.log("Registration error:", error);

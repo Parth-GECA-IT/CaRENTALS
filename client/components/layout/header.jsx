@@ -11,18 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Car, Menu, User, LogOut, Settings } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const { user } = useAuth();
   const location = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
-  // Static user data instead of fetched data
-  const user = {
-    fullName: "John Doe",
-    email: "john.doe@example.com",
-    isAdmin: true,
-  };
 
   const handleLogout = () => {
     console.log("User logged out");

@@ -26,7 +26,7 @@ public class UserService {
 
 	    // Create and save user
 	    User user = new User();
-	    user.setName(req.getName());
+	    user.setFullName(req.getName());
 	    user.setEmail(req.getEmail());
 	    user.setPassword(req.getPassword());
 	    user.setUsername(req.getUsername());
