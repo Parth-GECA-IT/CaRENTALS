@@ -27,6 +27,7 @@ export default function Home() {
   useEffect(() => {
     const loginUser = JSON.parse(localStorage.getItem("loginSuccess"));
     const regUser = JSON.parse(localStorage.getItem("regSuccess"));
+    const logout = localStorage.getItem("logOutSuccess");
     if (regUser) {
       setTimeout(() => {
         toast.success(() => (
@@ -73,6 +74,32 @@ export default function Home() {
         });
       }, 100);
       localStorage.removeItem("loginSuccess");
+    }
+    if(logout === "1") {
+      setTimeout(() => {
+        toast.success(() => (
+          <CustomToast
+            title="LogOut Successful"
+            // description={`See you soon ${loginUser}`}
+            variant="success"
+          />
+        ), {
+          style: {
+            backgroundColor: "#08bd0e",
+            boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
+            padding: "16px",
+          },
+          icon: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }, 100);
+      localStorage.removeItem("logOutSuccess");
     }
   }, []);
 

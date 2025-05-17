@@ -70,7 +70,7 @@ export default function AuthPage() {
     setIsPending(true);
     // API call
     try {
-      login(data)
+      login(data);
     }
     catch (error) {
       console.log("Login error:", error);

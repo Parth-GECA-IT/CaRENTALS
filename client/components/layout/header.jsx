@@ -15,13 +15,13 @@ import { useAuth } from "@/hooks/use-auth";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    console.log("User logged out");
-    // Static logout functionality
+    logout();
+    // localStorage.removeItem("loginSuccess");
   };
 
   const getInitials = (name) => {
@@ -81,8 +81,8 @@ export default function Header() {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/account">
-                    <div className="flex items-center cursor-pointer">
+                  <Link href="/account" className="cursor-pointer hover:bg-[#1F1F1F]">
+                    <div className="flex items-center">
                       <User className="mr-2 h-4 w-4" />
                       <span>My Account</span>
                     </div>
@@ -90,8 +90,8 @@ export default function Header() {
                 </DropdownMenuItem>
                 {user.isAdmin && (
                   <DropdownMenuItem asChild>
-                    <Link href="/admin">
-                      <div className="flex items-center cursor-pointer">
+                    <Link href="/admin" className="cursor-pointer hover:bg-[#1F1F1F]">
+                      <div className="flex items-center">
                         <Settings className="mr-2 h-4 w-4" />
                         <span>Admin Panel</span>
                       </div>
@@ -99,9 +99,9 @@ export default function Header() {
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-red-500">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span className="cursor-pointer">Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -165,7 +165,7 @@ export default function Header() {
                       </span>
                     </Link>
                   )}
-                  <Button className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90" onClick={handleLogout}>
+                  <Button className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90 cursor-pointer" onClick={handleLogout}>
                     Log out
                   </Button>
                 </>

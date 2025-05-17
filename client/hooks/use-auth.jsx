@@ -3,16 +3,17 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { CustomToast } from "@/components/ui/customToast";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const localIP = "192.168.221.218";
+  const localIP = "192.168.43.228";
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const location = usePathname();
 
   // Load current user once
   useEffect(() => {
@@ -124,11 +125,17 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch(`http://${localIP}:8090/logout`, {
-        method: "POST",
-      });
+      // await fetch(`http://${localIP}:8090/logout`, {
+      //   method: "POST",
+      // });
       setUser(null);
-      alert("Logged out");
+      // localStorage.setItem("logOutSuccess", JSON.stringify(data.fullName));
+      localStorage.setItem("logOutSuccess", "1");
+      if(location === "/") {
+      router.push("/");
+      }
+      window.location.reload();
+      // alert("Logged out");
     } catch (err) {
       alert("Logout failed: " + err.message);
     }

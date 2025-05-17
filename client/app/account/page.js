@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks/use-auth";
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("profile");
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   // Mock bookings data
   const bookings = [
     {
@@ -39,9 +39,10 @@ export default function AccountPage() {
   
   const handleLogout = () => {
     // Mock logout functionality
-    setTimeout(() => {
-      router.push("/");
-    }, 1000);
+    logout();
+    // setTimeout(() => {
+    //   router.push("/");
+    // }, 1000);
   };
 
   const logoutMutation = {
