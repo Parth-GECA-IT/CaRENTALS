@@ -8,7 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const localIP = "192.168.43.228";
+  const localIP = "localhost";
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

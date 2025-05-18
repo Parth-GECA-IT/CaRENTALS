@@ -58,11 +58,6 @@ export default function Home() {
             variant="success"
           />
         ), {
-          style: {
-            backgroundColor: "#08bd0e",
-            boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
-            padding: "16px",
-          },
           icon: false,
           autoClose: 5000,
           hideProgressBar: false,
@@ -77,25 +72,19 @@ export default function Home() {
     }
     if(logout === "1") {
       setTimeout(() => {
-        toast.success(() => (
+        toast(() => (
           <CustomToast
             title="LogOut Successful"
             // description={`See you soon ${loginUser}`}
             variant="success"
           />
         ), {
-          style: {
-            backgroundColor: "#08bd0e",
-            boxShadow: "0 0 10px rgba(170, 170, 170, 0.5)",
-            padding: "16px",
-          },
-          icon: false,
           autoClose: 5000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
-          theme: "colored",
+          theme: "dark",
           transition: Bounce,
         });
       }, 100);
