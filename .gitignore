@@ -1,4 +1,4 @@
-/server/src/main/resources
+/server/src/main/resources/application.properties
 /.metadata/
 hs_err_*.log
 replay_*.log
