@@ -1,6 +1,7 @@
 package com.example.server.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,31 @@ public class CarService {
 		return carRepository.findAll();
 	}
 	
-	public Car getCarById(Long id) {
-		return carRepository.findById(id).orElse(null);
+	public List<Car> getAvailableCars(){
+		return carRepository.findByAvailableTrue();
 	}
 	
-	public Car saveCar(Car car) {
+	public Car addCar(Car car) {
 		return carRepository.save(car);
+	}
+	
+	public Car updateCar(Car car) {
+		return carRepository.save(car);
+	}
+	
+	public Optional<Car> getCarById(Long id) {
+		return carRepository.findById(id);
 	}
 	
 	public void deleteCar(Long id) {
 		carRepository.deleteById(id);
+	}
+	
+	public List<Car> getCarsByType(String type){
+		return carRepository.findByType(type);
+	}
+	
+	public List<Car> getCarsByPriceRange(double min, double max){
+		return carRepository.findByPricePerDayBetween(min, max);
 	}
 }

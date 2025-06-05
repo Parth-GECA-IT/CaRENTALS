@@ -1,8 +1,69 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
+  --primary: #FF6B35;
+  --secondary: #262629;
   --background: #ffffff;
   --foreground: #171717;
+} */
+
+:root {
+  /* Base colors */
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+
+  /* Card colors */
+  --card: #0a0a0a;
+  --card-foreground: #fafafa;
+
+  /* Popover colors */
+  --popover: #0a0a0a;
+  --popover-foreground: #fafafa;
+
+  /* Primary colors */
+  --primary: #FF6B35;
+  --primary-foreground: #fafafa;
+
+  /* Secondary colors */
+  --secondary: #262629;
+  --secondary-foreground: #fafafa;
+
+  /* Muted colors */
+  --muted: #262629;
+  --muted-foreground: #a1a1aa;
+
+  /* Accent colors */
+  --accent: #262629;
+  --accent-foreground: #fafafa;
+
+  /* Destructive colors */
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
+
+  /* Border and input colors */
+  --border: #262629;
+  --input: #262629;
+  --ring: #d4d4d8;
+
+  /* Border radius */
+  --radius: 0.5rem;
+
+  /* Chart colors */
+  --chart-1: #FF6B35;
+  --chart-2: #a1a1aa;
+  --chart-3: #71717a;
+  --chart-4: #3f3f46;
+  --chart-5: #18181b;
+
+  /* Sidebar colors */
+  --sidebar-background: #0a0a0a;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #FF6B35;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #262629;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #262629;
+  --sidebar-ring: #d4d4d8;
 }
 
 @theme inline {
@@ -13,9 +74,70 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :root {
+    --primary: #FF6B35;
+    --secondary: #262629;
     --background: #0a0a0a;
     --foreground: #ededed;
+  } */
+
+  :root {
+    /* Base colors */
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+
+    /* Card colors */
+    --card: #0a0a0a;
+    --card-foreground: #fafafa;
+
+    /* Popover colors */
+    --popover: #0a0a0a;
+    --popover-foreground: #fafafa;
+
+    /* Primary colors */
+    --primary: #FF6B35;
+    --primary-foreground: #fafafa;
+
+    /* Secondary colors */
+    --secondary: #262629;
+    --secondary-foreground: #fafafa;
+
+    /* Muted colors */
+    --muted: #262629;
+    --muted-foreground: #a1a1aa;
+
+    /* Accent colors */
+    --accent: #262629;
+    --accent-foreground: #fafafa;
+
+    /* Destructive colors */
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fafafa;
+
+    /* Border and input colors */
+    --border: #262629;
+    --input: #262629;
+    --ring: #d4d4d8;
+
+    /* Border radius */
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: #FF6B35;
+    --chart-2: #a1a1aa;
+    --chart-3: #71717a;
+    --chart-4: #3f3f46;
+    --chart-5: #18181b;
+
+    /* Sidebar colors */
+    --sidebar-background: #0a0a0a;
+    --sidebar-foreground: #fafafa;
+    --sidebar-primary: #FF6B35;
+    --sidebar-primary-foreground: #fafafa;
+    --sidebar-accent: #262629;
+    --sidebar-accent-foreground: #fafafa;
+    --sidebar-border: #262629;
+    --sidebar-ring: #d4d4d8;
   }
 }
 
@@ -34,4 +156,143 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+.bg-accent {
+  background-color: var(--accent) !important;
+}
+.bg-background {
+  background-color: var(--background) !important;
+}
+.bg-destructive {
+  background-color: var(--destructive) !important;
+}
+.bg-sidebar {
+  background-color: var(--sidebar-background) !important;
+}
+.bg-sidebar-primary {
+  background-color: var(--sidebar-primary) !important;
+}
+
+/* Text utilities */
+.text-primary {
+  color: var(--primary-foreground) !important;
+}
+.text-secondary {
+  color: var(--secondary-foreground) !important;
+}
+.text-accent {
+  color: var(--accent-foreground) !important;
+}
+.text-destructive {
+  color: var(--destructive-foreground) !important;
+}
+.text-sidebar {
+  color: var(--sidebar-foreground) !important;
+}
+
+/* Border utilities */
+.border-border {
+  border-color: var(--border) !important;
+}
+.border-primary {
+  border-color: var(--primary) !important;
+}
+.border-accent {
+  border-color: var(--accent) !important;
+}
+
+/* Ring utilities */
+.ring-primary {
+  --tw-ring-color: var(--primary) !important;
+}
+.ring-accent {
+  --tw-ring-color: var(--accent) !important;
+}
+
+/* Shadow utilities */
+.shadow {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+}
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Focus utilities */
+.focus\:ring-2:focus {
+  --tw-ring-width: 2px !important;
+}
+.focus\:ring-ring:focus {
+  --tw-ring-color: var(--ring) !important;
+}
+
+/* Disabled utilities */
+.disabled\:opacity-50:disabled {
+  opacity: 0.5 !important;
+}
+
+/* Animation utilities */
+.data-\[state\=open\]\:animate-in[data-state="open"] {
+  animation: enter 0.2s ease-out !important;
+}
+.data-\[state\=closed\]\:animate-out[data-state="closed"] {
+  animation: exit 0.15s ease-in !important;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Button hover states */
+.hover\:bg-primary\/90:hover {
+  background-color: color-mix(in srgb, var(--primary) 90%, transparent) !important;
+}
+.hover\:bg-destructive\/90:hover {
+  background-color: color-mix(in srgb, var(--destructive) 90%, transparent) !important;
+}
+.hover\:bg-accent:hover {
+  background-color: var(--accent) !important;
+}
+
+/* Focus visible utilities */
+.focus-visible\:outline-none:focus-visible {
+  outline: none !important;
+}
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-width: 2px !important;
+}
+.focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: var(--ring) !important;
+}
+
+/* Transition utilities */
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 150ms !important;
 }

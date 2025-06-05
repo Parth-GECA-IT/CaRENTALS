@@ -1,13 +1,14 @@
 package com.example.server.dto;
 
-import com.example.server.enums.UserRole;
+
+
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.Id;
 
-@Data
+
+
 public class UserDto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,7 @@ public class UserDto {
 	
 	private String email;
 	
-	private UserRole userRole;
+
 
 	public Long getId() {
 		return id;
@@ -43,11 +44,4 @@ public class UserDto {
 		this.email = email;
 	}
 
-	public UserRole getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
 }

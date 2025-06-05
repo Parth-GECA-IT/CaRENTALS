@@ -10,7 +10,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   const [typeFilters, setTypeFilters] = useState(currentFilters?.type || []);
   const [priceRange, setPriceRange] = useState([
     currentFilters?.priceMin || 0,
-    currentFilters?.priceMax || 200
+    currentFilters?.priceMax || 5000
   ]);
   const [featuresFilters, setFeaturesFilters] = useState(currentFilters?.features || []);
   const [seatsFilters, setSeatsFilters] = useState(currentFilters?.seats || []);
@@ -19,14 +19,14 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   useEffect(() => {
     // Update local state when currentFilters change
     setTypeFilters(currentFilters?.type || []);
-    setPriceRange([currentFilters?.priceMin || 0, currentFilters?.priceMax || 200]);
+    setPriceRange([currentFilters?.priceMin || 0, currentFilters?.priceMax || 5000]);
     setFeaturesFilters(currentFilters?.features || []);
     setSeatsFilters(currentFilters?.seats || []);
     setTransmissionFilters(currentFilters?.transmission || []);
   }, [currentFilters]);
 
   const handleTypeChange = (type, checked) => {
-    setTypeFilters(prev => 
+    setTypeFilters(prev =>
       checked
         ? [...prev, type]
         : prev.filter(t => t !== type)
@@ -34,7 +34,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   };
 
   const handleFeaturesChange = (feature, checked) => {
-    setFeaturesFilters(prev => 
+    setFeaturesFilters(prev =>
       checked
         ? [...prev, feature]
         : prev.filter(f => f !== feature)
@@ -42,7 +42,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   };
 
   const handleSeatsChange = (seats, checked) => {
-    setSeatsFilters(prev => 
+    setSeatsFilters(prev =>
       checked
         ? [...prev, seats]
         : prev.filter(s => s !== seats)
@@ -50,7 +50,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   };
 
   const handleTransmissionChange = (transmission, checked) => {
-    setTransmissionFilters(prev => 
+    setTransmissionFilters(prev =>
       checked
         ? [...prev, transmission]
         : prev.filter(t => t !== transmission)
@@ -58,6 +58,14 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   };
 
   const handlePriceRangeChange = (values) => {
+    if(values[1] - values[0] < 200) {
+      // Ensure minimum range of 200 and halt when less than 200
+      if(values[0] + 200 <= 5000) {
+        values[1] = values[0] + 200;
+      } else {
+        values[0] = Math.max(0, values[1] - 200);
+      }
+    }
     setPriceRange(values);
   };
 
@@ -87,9 +95,9 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           <div className="space-y-2">
             {carTypes.map((type) => (
               <div key={type} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={`type-${type}`} 
-                  checked={typeFilters.includes(type)} 
+                <Checkbox
+                  id={`type-${type}`}
+                  checked={typeFilters.includes(type)}
                   onCheckedChange={(checked) => handleTypeChange(type, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -104,14 +112,14 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           <div className="px-2 py-4">
             <Slider
               defaultValue={priceRange}
-              max={500}
+              max={5000}
               step={5}
               value={priceRange}
               onValueChange={handlePriceRangeChange}
               className="my-5 cursor-pointer"
             />
             <div className="flex justify-between text-sm text-gray-300 mt-2">
-              <span>₹{priceRange[0]}</span>
+              <span>₹{priceRange[0]}{priceRange[0] ? "/day" : ""} </span>
               <span>₹{priceRange[1]}/day</span>
             </div>
           </div>
@@ -122,9 +130,9 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           <div className="space-y-2">
             {features.map((feature) => (
               <div key={feature} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={`feature-${feature}`} 
-                  checked={featuresFilters.includes(feature)} 
+                <Checkbox
+                  id={`feature-${feature}`}
+                  checked={featuresFilters.includes(feature)}
                   onCheckedChange={(checked) => handleFeaturesChange(feature, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -139,9 +147,9 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           <div className="space-y-2">
             {passengerCapacities.map((seats) => (
               <div key={seats} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={`seats-${seats}`} 
-                  checked={seatsFilters.includes(seats)} 
+                <Checkbox
+                  id={`seats-${seats}`}
+                  checked={seatsFilters.includes(seats)}
                   onCheckedChange={(checked) => handleSeatsChange(seats, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -156,9 +164,9 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           <div className="space-y-2">
             {transmissionTypes.map((transmission) => (
               <div key={transmission} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={`transmission-${transmission}`} 
-                  checked={transmissionFilters.includes(transmission)} 
+                <Checkbox
+                  id={`transmission-${transmission}`}
+                  checked={transmissionFilters.includes(transmission)}
                   onCheckedChange={(checked) => handleTransmissionChange(transmission, checked)}
                   className="border-[#FF6B35] text-[#FF6B35]"
                 />
@@ -168,8 +176,8 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
           </div>
         </div>
 
-        <Button 
-          onClick={applyFilters} 
+        <Button
+          onClick={applyFilters}
           className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white font-bold py-2 rounded-md transition duration-300 cursor-pointer"
         >
           Apply Filters

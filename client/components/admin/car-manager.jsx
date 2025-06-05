@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,6 +20,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, PenSquare, Plus, Trash2 } from "lucide-react";
+import { CustomToast } from "@/components/ui/customToast";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 // Mock data for cars
 const mockCars = [
@@ -69,17 +71,16 @@ const mockCars = [
 ];
 
 export default function CarManager() {
-  const { toast } = useToast();
   const [cars, setCars] = useState(mockCars);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
-  
-  const filteredCars = activeTab === "all" 
-    ? cars 
-    : activeTab === "available" 
-      ? cars.filter(car => car.available) 
+
+  const filteredCars = activeTab === "all"
+    ? cars
+    : activeTab === "available"
+      ? cars.filter(car => car.available)
       : cars.filter(car => !car.available);
 
   const sortedCars = [...filteredCars].sort((a, b) => a.id - b.id);
@@ -101,7 +102,7 @@ export default function CarManager() {
 
   const validateForm = (data) => {
     const errors = {};
-    
+
     if (!data.brand) errors.brand = "Brand is required";
     if (!data.model) errors.model = "Model is required";
     if (data.year < 2000 || data.year > 2030) errors.year = "Year must be between 2000 and 2030";
@@ -111,7 +112,7 @@ export default function CarManager() {
     if (data.seats < 2 || data.seats > 9) errors.seats = "Seats must be between 2 and 9";
     if (data.pricePerDay < 0) errors.pricePerDay = "Price must be a positive number";
     if (!data.imageUrl || !data.imageUrl.startsWith('http')) errors.imageUrl = "Please enter a valid URL";
-    
+
     return errors;
   };
 
@@ -138,9 +139,22 @@ export default function CarManager() {
       available: true
     };
     setCars([...cars, newCar]);
-    toast({
-      title: "Car Created",
-      description: "The car has been added to the inventory.",
+    toast(() => (
+      <CustomToast
+        title="Car Created"
+        description={"The car has been added to the inventory."}
+        variant="success"
+      />
+    ), {
+      style: { backgroundColor: '#10B710' },
+      icon: false,
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "dark",
+      transition: Bounce,
     });
     setOpenCreateDialog(false);
     form.reset();
@@ -163,13 +177,30 @@ export default function CarManager() {
         : [];
 
       // Mock updating a car
-      const updatedCars = cars.map(car => 
+      const updatedCars = cars.map(car =>
         car.id === selectedCar.id ? { ...car, ...data, features: featuresArray } : car
       );
       setCars(updatedCars);
-      toast({
-        title: "Car Updated",
-        description: "The car details have been updated successfully.",
+      // toast({
+      //   title: "Car Updated",
+      //   description: "The car details have been updated successfully.",
+      // });
+      toast(() => (
+        <CustomToast
+          title="Car Updated"
+          description={"The car details have been updated successfully."}
+          variant="success"
+        />
+      ), {
+        style: { backgroundColor: '#10B710' },
+        icon: false,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
       });
       setOpenEditDialog(false);
     }
@@ -179,22 +210,49 @@ export default function CarManager() {
     if (window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) {
       // Mock deleting a car
       setCars(cars.filter(car => car.id !== id));
-      toast({
-        title: "Car Deleted",
-        description: "The car has been removed from the inventory.",
+      toast(() => (
+        <CustomToast
+          title="Car Deleted"
+          description={"The car has been removed from the inventory."}
+          variant="success"
+        />
+      ), {
+        style: { backgroundColor: '#FF4444' },
+        icon: false,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
       });
     }
   };
 
   const handleToggleAvailability = (id, currentAvailability) => {
     // Mock toggling availability
-    const updatedCars = cars.map(car => 
+    const updatedCars = cars.map(car =>
       car.id === id ? { ...car, available: !currentAvailability } : car
     );
     setCars(updatedCars);
-    toast({
-      title: "Availability Updated",
-      description: "The car's availability status has been updated.",
+    toast(() => (
+      <CustomToast
+        title="Availability Updated"
+        // description="The car's availability status has been updated."
+        description={`The car is now ${currentAvailability ? 'unavailable' : 'available'}.`}
+        variant="success"
+      />
+    ), {
+      style: { backgroundColor: currentAvailability ? '#FF4444' : '#10B710' },
+      icon: false,
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "dark",
+      transition: Bounce,
     });
   };
 
@@ -231,15 +289,46 @@ export default function CarManager() {
     setOpenCreateDialog(true);
   };
 
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+
+    // Check on initial load
+    checkIfMobile();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   return (
     <div>
+      <ToastContainer stacked
+        position={isMobileView ? "top-center" : "bottom-right"}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+        transition={Bounce}
+        className={"custom-toast-container"}
+      />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
         <h2 className="text-lg font-semibold mb-3 sm:mb-0">Car Inventory Management</h2>
         <Dialog open={openCreateDialog} onOpenChange={setOpenCreateDialog}>
           <DialogTrigger asChild>
             <Button
               onClick={handleCreateCar}
-              className="bg-[#10B981] hover:bg-[#10B981]/90 cursor-pointer"
+              className="bg-[#10B981] hover:bg-[#10B981]/85 cursor-pointer"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add New Car
@@ -279,7 +368,7 @@ export default function CarManager() {
                     )}
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -288,8 +377,8 @@ export default function CarManager() {
                       <FormItem>
                         <FormLabel>Year</FormLabel>
                         <FormControl>
-                          <Input 
-                            type="number" 
+                          <Input
+                            type="number"
                             min={2000}
                             max={2030}
                             {...field}
@@ -307,7 +396,7 @@ export default function CarManager() {
                       <FormItem>
                         <FormLabel>Price Per Day ($)</FormLabel>
                         <FormControl>
-                          <Input 
+                          <Input
                             type="number"
                             min={0}
                             {...field}
@@ -319,7 +408,7 @@ export default function CarManager() {
                     )}
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -349,8 +438,8 @@ export default function CarManager() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Seats</FormLabel>
-                        <Select 
-                          onValueChange={(value) => field.onChange(parseInt(value))} 
+                        <Select
+                          onValueChange={(value) => field.onChange(parseInt(value))}
                           defaultValue={field.value.toString()}
                         >
                           <FormControl>
@@ -369,7 +458,7 @@ export default function CarManager() {
                     )}
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -415,7 +504,7 @@ export default function CarManager() {
                     )}
                   />
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="features"
@@ -423,7 +512,7 @@ export default function CarManager() {
                     <FormItem>
                       <FormLabel>Features (comma-separated)</FormLabel>
                       <FormControl>
-                        <Textarea 
+                        <Textarea
                           placeholder="e.g. GPS, Bluetooth, Leather Seats"
                           {...field}
                         />
@@ -432,7 +521,7 @@ export default function CarManager() {
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="imageUrl"
@@ -440,7 +529,7 @@ export default function CarManager() {
                     <FormItem>
                       <FormLabel>Image URL</FormLabel>
                       <FormControl>
-                        <Input 
+                        <Input
                           placeholder="Enter the URL of the car image"
                           {...field}
                         />
@@ -449,9 +538,9 @@ export default function CarManager() {
                     </FormItem>
                   )}
                 />
-                
-                <Button 
-                  type="submit" 
+
+                <Button
+                  type="submit"
                   className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90"
                 >
                   Create Car
@@ -461,14 +550,14 @@ export default function CarManager() {
           </DialogContent>
         </Dialog>
       </div>
-      
+
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="all" className="cursor-pointer">All Cars ({cars.length})</TabsTrigger>
           <TabsTrigger value="available" className="cursor-pointer">Available ({cars.filter(car => car.available).length})</TabsTrigger>
           <TabsTrigger value="unavailable" className="cursor-pointer">Unavailable ({cars.filter(car => !car.available).length})</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value={activeTab}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sortedCars.map((car) => (
@@ -505,22 +594,22 @@ export default function CarManager() {
                       <span>{car.fuelType}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mb-3">
                     <p className="text-lg font-bold text-[#3B82F6]">${car.pricePerDay} <span className="text-sm font-normal text-gray-600">/ day</span></p>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-1 mb-4">
                     {car.features.slice(0, 3).map((feature, index) => (
-                      <span key={index} className="text-xs text-black bg-gray-100 px-2 py-1 rounded-full">{feature}</span>
+                      <span key={index} className="text-xs text-black font-semibold bg-gray-100 px-2 py-1 rounded-full">{feature}</span>
                     ))}
                     {car.features.length > 3 && (
-                      <span className="text-xs text-black bg-gray-100 px-2 py-1 rounded-full">+{car.features.length - 3} more</span>
+                      <span className="text-xs text-black font-semibold bg-gray-100 px-2 py-1 rounded-full">+{car.features.length - 3} more</span>
                     )}
                   </div>
-                  
+
                   <Separator className="mb-4" />
-                  
+
                   <div className="flex justify-between gap-2">
                     <Button
                       variant="outline"
@@ -577,7 +666,7 @@ export default function CarManager() {
                                 )}
                               />
                             </div>
-                            
+
                             <div className="grid grid-cols-2 gap-4">
                               <FormField
                                 control={form.control}
@@ -586,8 +675,8 @@ export default function CarManager() {
                                   <FormItem>
                                     <FormLabel>Year</FormLabel>
                                     <FormControl>
-                                      <Input 
-                                        type="number" 
+                                      <Input
+                                        type="number"
                                         min={2000}
                                         max={2030}
                                         {...field}
@@ -605,7 +694,7 @@ export default function CarManager() {
                                   <FormItem>
                                     <FormLabel>Price Per Day ($)</FormLabel>
                                     <FormControl>
-                                      <Input 
+                                      <Input
                                         type="number"
                                         min={0}
                                         {...field}
@@ -617,7 +706,7 @@ export default function CarManager() {
                                 )}
                               />
                             </div>
-                            
+
                             <div className="grid grid-cols-2 gap-4">
                               <FormField
                                 control={form.control}
@@ -647,8 +736,8 @@ export default function CarManager() {
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormLabel>Seats</FormLabel>
-                                    <Select 
-                                      onValueChange={(value) => field.onChange(parseInt(value))} 
+                                    <Select
+                                      onValueChange={(value) => field.onChange(parseInt(value))}
                                       defaultValue={field.value.toString()}
                                     >
                                       <FormControl>
@@ -667,7 +756,7 @@ export default function CarManager() {
                                 )}
                               />
                             </div>
-                            
+
                             <div className="grid grid-cols-2 gap-4">
                               <FormField
                                 control={form.control}
@@ -713,7 +802,7 @@ export default function CarManager() {
                                 )}
                               />
                             </div>
-                            
+
                             <FormField
                               control={form.control}
                               name="features"
@@ -721,7 +810,7 @@ export default function CarManager() {
                                 <FormItem>
                                   <FormLabel>Features (comma-separated)</FormLabel>
                                   <FormControl>
-                                    <Textarea 
+                                    <Textarea
                                       placeholder="e.g. GPS, Bluetooth, Leather Seats"
                                       {...field}
                                     />
@@ -730,7 +819,7 @@ export default function CarManager() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={form.control}
                               name="imageUrl"
@@ -738,7 +827,7 @@ export default function CarManager() {
                                 <FormItem>
                                   <FormLabel>Image URL</FormLabel>
                                   <FormControl>
-                                    <Input 
+                                    <Input
                                       placeholder="Enter the URL of the car image"
                                       {...field}
                                     />
@@ -747,9 +836,9 @@ export default function CarManager() {
                                 </FormItem>
                               )}
                             />
-                            
-                            <Button 
-                              type="submit" 
+
+                            <Button
+                              type="submit"
                               className="w-full bg-[#3B82F6] hover:bg-[#3B82F6]/90 cursor-pointer"
                             >
                               Update Car
@@ -771,18 +860,18 @@ export default function CarManager() {
               </Card>
             ))}
           </div>
-          
+
           {sortedCars.length === 0 && (
             <div className="text-center py-12 bg-gray-50 rounded-md">
               <h3 className="text-lg font-medium text-gray-900 mb-2">No cars found</h3>
               <p className="text-gray-600 mb-6">
-                {activeTab === "all" 
-                  ? "There are no cars in the inventory." 
+                {activeTab === "all"
+                  ? "There are no cars in the inventory."
                   : activeTab === "available"
                     ? "There are no available cars in the inventory."
                     : "There are no unavailable cars in the inventory."}
               </p>
-              <Button 
+              <Button
                 onClick={handleCreateCar}
                 className="bg-[#3B82F6] hover:bg-[#3B82F6]/90"
               >

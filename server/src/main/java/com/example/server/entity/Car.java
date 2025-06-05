@@ -1,7 +1,5 @@
 package com.example.server.entity;
 
-// import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,11 +13,15 @@ public class Car {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String model;
-	
-	private String company;
-	
-	private double dailyRate;
+	private String name;
+	private String brand;
+	private String type; // SUV, sport,luxury
+	private String fuelType; // Petrol, diesel, Electric
+	private String transmission; // Automatic, manual
+	private  int seats;
+	private boolean available;
+	private double pricePerDay;
+	private double rating;
 	
 	private String imageUrl;
 
@@ -31,28 +33,76 @@ public class Car {
 		this.id = id;
 	}
 
-	public String getModel() {
-		return model;
+	public String getName() {
+		return name;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getCompany() {
-		return company;
+	public String getBrand() {
+		return brand;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
-	public double getDailyRate() {
-		return dailyRate;
+	public String getType() {
+		return type;
 	}
 
-	public void setDailyRate(double dailyRate) {
-		this.dailyRate = dailyRate;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+
+	public String getTransmission() {
+		return transmission;
+	}
+
+	public void setTransmission(String transmission) {
+		this.transmission = transmission;
+	}
+
+	public int getSeats() {
+		return seats;
+	}
+
+	public void setSeats(int seats) {
+		this.seats = seats;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+	public double getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public void setPricePerDay(double pricePerDay) {
+		this.pricePerDay = pricePerDay;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 
 	public String getImageUrl() {
