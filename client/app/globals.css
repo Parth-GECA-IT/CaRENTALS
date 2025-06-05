@@ -160,82 +160,89 @@ body {
 
 /* Background utilities */
 .bg-primary {
-  background-color: var(--primary) !important;
+  background-color: var(--primary);
 }
 .bg-secondary {
-  background-color: var(--secondary) !important;
+  background-color: var(--secondary);
+}
+.bg-muted {
+  background-color: var(--muted);
 }
 .bg-accent {
-  background-color: var(--accent) !important;
+  background-color: var(--accent);
 }
 .bg-background {
-  background-color: var(--background) !important;
+  background-color: var(--background);
 }
 .bg-destructive {
-  background-color: var(--destructive) !important;
+  background-color: var(--destructive);
 }
 .bg-sidebar {
-  background-color: var(--sidebar-background) !important;
+  background-color: var(--sidebar-background);
 }
 .bg-sidebar-primary {
-  background-color: var(--sidebar-primary) !important;
+  background-color: var(--sidebar-primary);
 }
 
 /* Text utilities */
 .text-primary {
-  color: var(--primary-foreground) !important;
+  color: var(--primary-foreground);
 }
 .text-secondary {
-  color: var(--secondary-foreground) !important;
+  color: var(--secondary-foreground);
 }
 .text-accent {
-  color: var(--accent-foreground) !important;
+  color: var(--accent-foreground);
 }
 .text-destructive {
-  color: var(--destructive-foreground) !important;
+  color: var(--destructive-foreground);
 }
 .text-sidebar {
-  color: var(--sidebar-foreground) !important;
+  color: var(--sidebar-foreground);
 }
 
 /* Border utilities */
-.border-border {
+/* .border {
   border-color: var(--border) !important;
+} */
+.border-width {
+  border-width: 1px;
+  border-color: var(--border);
 }
 .border-primary {
-  border-color: var(--primary) !important;
+  border-color: var(--primary);
 }
 .border-accent {
-  border-color: var(--accent) !important;
+  border-color: var(--accent);
 }
 
 /* Ring utilities */
 .ring-primary {
-  --tw-ring-color: var(--primary) !important;
+  --tw-ring-color: var(--primary);
 }
 .ring-accent {
-  --tw-ring-color: var(--accent) !important;
+  --tw-ring-color: var(--accent);
 }
 
 /* Shadow utilities */
 .shadow {
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 /* Focus utilities */
 .focus\:ring-2:focus {
-  --tw-ring-width: 2px !important;
+  --tw-ring-width: 2px;
 }
 .focus\:ring-ring:focus {
-  --tw-ring-color: var(--ring) !important;
+  --tw-ring-color: var(--ring);
 }
 
 /* Disabled utilities */
 .disabled\:opacity-50:disabled {
-  opacity: 0.5 !important;
+  opacity: 0.5;
 }
 
 /* Animation utilities */
@@ -270,29 +277,29 @@ body {
 
 /* Button hover states */
 .hover\:bg-primary\/90:hover {
-  background-color: color-mix(in srgb, var(--primary) 90%, transparent) !important;
+  background-color: color-mix(in srgb, var(--primary) 90%, transparent);
 }
 .hover\:bg-destructive\/90:hover {
-  background-color: color-mix(in srgb, var(--destructive) 90%, transparent) !important;
+  background-color: color-mix(in srgb, var(--destructive) 90%, transparent);
 }
 .hover\:bg-accent:hover {
-  background-color: var(--accent) !important;
+  background-color: var(--accent);
 }
 
 /* Focus visible utilities */
 .focus-visible\:outline-none:focus-visible {
-  outline: none !important;
+  outline: none;
 }
 .focus-visible\:ring-2:focus-visible {
-  --tw-ring-width: 2px !important;
+  --tw-ring-width: 2px;
 }
 .focus-visible\:ring-ring:focus-visible {
-  --tw-ring-color: var(--ring) !important;
+  --tw-ring-color: var(--ring);
 }
 
 /* Transition utilities */
 .transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transition-duration: 150ms !important;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }

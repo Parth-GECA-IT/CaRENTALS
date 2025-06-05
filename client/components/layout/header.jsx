@@ -34,7 +34,7 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <Link href="/">
             <div className="flex items-center space-x-2 cursor-pointer">
-              <img src="/logo2.png" alt="CaRENTALS" className="h-16 w-16" />
+              <img src="/logo2.png" alt="CaRENTALS" className="h-14 w-14" />
               <h1 className="text-xl font-bold text-white">Ca<span className="text-[#FF6B35]">RENTALS</span></h1>
             </div>
           </Link>
@@ -111,7 +111,7 @@ export default function Header() {
                 <span className="text-white hover:text-[#FF6B35] font-medium cursor-pointer">Register</span>
               </Link>
               <Link href="/auth">
-                <span className="text-[#FF6B35] hover:text-white border border-[#FF6B35] px-4 py-1 rounded transition duration-300 ease-in-out font-medium cursor-pointer">
+                <span className="text-[#FF6B35] hover:text-white border-1 border-[#FF6B35] px-4 py-1 rounded transition duration-300 ease-in-out font-medium cursor-pointer">
                   Login User
                 </span>
               </Link>

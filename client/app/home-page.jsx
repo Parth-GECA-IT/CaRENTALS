@@ -33,7 +33,7 @@ export default function HomePage() {
             <h2 className="text-2xl font-bold text-white">Available Cars</h2>
             <div className="flex items-center">
               <span className="text-sm text-gray-400 mr-2">Sort by:</span>
-              <select className="bg-[#222222] border border-[#333333] text-white rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] cursor-pointer">
+              <select className="bg-[#222222] border-border border-[#333333] text-white rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] cursor-pointer">
                 <option>Price: Low to High</option>
                 <option>Price: High to Low</option>
                 <option>Newest First</option>

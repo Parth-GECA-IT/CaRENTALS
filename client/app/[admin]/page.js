@@ -181,14 +181,14 @@ export default function AdminPage() {
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#1a1a1a] border-b border-l border-[#333333]">
-            <TabsTrigger value="cars">Cars Management</TabsTrigger>
-            <TabsTrigger value="bookings">Bookings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#262629] border-b border-l border-[#333333]">
+            <TabsTrigger className="cursor-pointer" value="cars">Cars Management</TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="bookings">Bookings</TabsTrigger>
           </TabsList>
           
           <TabsContent value="cars">
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-background">
                 {carsLoading ? (
                   <div className="flex justify-center py-8">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />

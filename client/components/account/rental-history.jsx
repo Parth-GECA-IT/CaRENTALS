@@ -199,7 +199,7 @@ export default function RentalHistory({ isAdmin = false }) {
                     <Link href={`/booking/${booking.id}`}>
                       <Button 
                         variant="outline"
-                        className="text-[#3B82F6] border-[#3B82F6]"
+                        className="text-[#3B82F6] border-[#3B82F6] cursor-pointer"
                         size="sm"
                       >
                         <Eye className="h-4 w-4 mr-2" />

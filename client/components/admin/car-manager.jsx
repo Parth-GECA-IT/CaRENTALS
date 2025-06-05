@@ -862,8 +862,8 @@ export default function CarManager() {
           </div>
 
           {sortedCars.length === 0 && (
-            <div className="text-center py-12 bg-gray-50 rounded-md">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No cars found</h3>
+            <div className="text-center py-12 bg-secondary-foreground rounded-md">
+              <h3 className="text-lg font-semibold text-gray-300 mb-2">No cars found</h3>
               <p className="text-gray-600 mb-6">
                 {activeTab === "all"
                   ? "There are no cars in the inventory."
@@ -873,7 +873,7 @@ export default function CarManager() {
               </p>
               <Button
                 onClick={handleCreateCar}
-                className="bg-[#3B82F6] hover:bg-[#3B82F6]/90"
+                className="cursor-pointer bg-[#3B82F6] hover:bg-[#3B82E6]/90"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add New Car
