@@ -850,7 +850,7 @@ export default function CarManager() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-none text-red-600 border-red-600 hover:bg-red-50 cursor-pointer"
+                      className="flex-none text-red-600 border-red-600 hover:bg-red-50 hover:text-red-900 cursor-pointer"
                       onClick={() => handleDelete(car.id)}
                     >
                       <Trash2 className="h-4 w-4" />

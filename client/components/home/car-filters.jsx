@@ -9,7 +9,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   // Local state for filters before applying
   const [typeFilters, setTypeFilters] = useState(currentFilters?.type || []);
   const [priceRange, setPriceRange] = useState([
-    currentFilters?.priceMin || 0,
+    currentFilters?.priceMin || 2000,
     currentFilters?.priceMax || 5000
   ]);
   const [featuresFilters, setFeaturesFilters] = useState(currentFilters?.features || []);
@@ -19,7 +19,7 @@ export default function CarFilters({ currentFilters, onFilterChange }) {
   useEffect(() => {
     // Update local state when currentFilters change
     setTypeFilters(currentFilters?.type || []);
-    setPriceRange([currentFilters?.priceMin || 0, currentFilters?.priceMax || 5000]);
+    setPriceRange([currentFilters?.priceMin || 2000, currentFilters?.priceMax || 5000]);
     setFeaturesFilters(currentFilters?.features || []);
     setSeatsFilters(currentFilters?.seats || []);
     setTransmissionFilters(currentFilters?.transmission || []);
